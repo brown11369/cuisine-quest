@@ -1,0 +1,93 @@
+.orders {
+    /* background-color: red; */
+    width: 90%;
+    margin-inline: auto;
+    padding-block: 20px;
+}
+
+.orders > h2 {
+    padding-inline: 20px;
+    margin-bottom: 20px;
+}
+
+.orders_container {
+    /* background-color: red; */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.card {
+    width: 90%;
+    /* background-color: yellow; */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 0 10px gray;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.title {
+    /* background-color: gray; */
+    text-align: center;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* background-color: blue; */
+}
+
+.details {
+    background-color: rgb(231, 222, 222);
+}
+
+.summary {
+    padding: 5px;
+    border-bottom: 2px solid rgb(189, 182, 182);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+h4 {
+    padding-left: 20px;
+}
+
+p {
+    padding-right: 20px;
+}
+
+p {
+    padding: 10px 40px;
+    font-size: 14px;
+}
+
+.btn {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+p {
+    font-size: small;
+    color: gray;
+}
+
+.total {
+    /* background-color: gray; */
+    align-self: flex-end;
+    padding-right: 20px;
+}

@@ -1,0 +1,47 @@
+/* CSS for ProductCardContainer */
+.ProductCardContainer {
+    width: 245px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 30px 2px rgba(0, 0, 0, 0.15);
+    margin-bottom: 20px;
+}
+
+.ProductCardContainer .card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.ProductCardContainer .card-body {
+    padding: 5px;
+}
+
+.ProductCardContainer .card-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+.ProductCardContainer .card-price {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.ProductCardContainer .btn-add-to-cart {
+    background-color: #5fa30f; /* Green background */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ProductCardContainer .btn-add-to-cart:hover {
+    background-color: #218838; /* Darker green on hover */
+}

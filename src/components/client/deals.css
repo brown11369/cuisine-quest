@@ -1,0 +1,88 @@
+/* ******* Deals Of The Day ******* */
+
+.deals {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.deals_day {
+    width: 72%;
+    height: 500px;
+    border: 2px solid #5FA30F;
+    font-family: Arial;
+}
+
+.deals_box {
+    display: flex;
+}
+
+.deals_img {
+    width: 50%;
+}
+
+
+.time {
+    font-size: 30px;
+    color: red;
+    border: 1px solid #ececec;
+    font-weight: bolder;
+    padding: 20px;
+    line-height: 100px;
+
+}
+
+/*  */
+
+.seller {
+    width: 27%;
+    height: 500px;
+    border: 1px solid #ececec;
+    overflow: hidden;
+    text-align: center;
+    font-family: Arial;
+}
+
+.slide_day {
+    width: 300%;
+    display: flex;
+    animation-name: avn;
+    animation-duration: 30s;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+    animation-delay: 3s;
+}
+
+.seller_slide {
+    width: 33.4%;
+    height: 500px;
+}
+
+.box2 {
+    display: flex;
+    width: 80%;
+    margin-left: 10%;
+    border-bottom: 1px solid dimgray;
+}
+
+.slide_img {
+    width: 40%;
+}
+
+@keyframes avn {
+    25% {
+        margin-left: -100%;
+    }
+
+    50% {
+        margin-left: -100%;
+    }
+
+    75% {
+        margin-left: -200%;
+    }
+
+    100% {
+        margin-left: -200%;
+    }
+}
