@@ -29,3 +29,6 @@ export const DELETE_CART_ITEM = `${URL}/cart/remove/`;
 
 // checkout
 export const POST_CHECKOUT = `${URL}/checkout/create-session`
+
+// orders
+export const GET_ORDERS = `${URL}/order/`

@@ -1,13 +1,14 @@
 import "./cart.css";
 import CartItem from "../../components/client/CartItem";
 import { useSelector } from "react-redux";
-import { STRIP_KEY,POST_CHECKOUT } from "../../utils/constants"
+import { STRIP_KEY, POST_CHECKOUT } from "../../utils/constants"
 import { loadStripe } from "@stripe/stripe-js";
 
 
 const Cart = () => {
-
+  const user = useSelector(store => store.user.userInfo)
   const cartItem = useSelector(store => store.cart.items)
+  const totalItems = useSelector(store => store.cart.totalQuantity)
   const totalPrice = useSelector(store => store.cart.totalPrice)
 
   const stripePromise = loadStripe(STRIP_KEY)
@@ -21,6 +22,13 @@ const Cart = () => {
         </div>
       </div>
     )
+  }
+  
+  const orderData = {
+    user: user._id,
+    items: cartItem,
+    totalItems,
+    totalPrice
   }
 
   async function handlePayment(order) {
@@ -63,7 +71,7 @@ const Cart = () => {
         </table>
         <div>
           <span>Total : {totalPrice} ₹</span>
-          <button onClick={() => { handlePayment(cartItem) }}>checkout</button>
+          <button onClick={() => { handlePayment(orderData) }}>checkout</button>
         </div>
       </div>
     </div>

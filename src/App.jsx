@@ -16,6 +16,7 @@ import UserAuth from './pages/client/UserAuth';
 import Cart from './pages/client/Cart';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import Order from './pages/client/Order';
 
 
 const router = createBrowserRouter([
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
           {
             path: "cart",
             element: <Cart/>
+          },
+          {
+            path: "orders",
+            element: <Order/>
           },
           {
             path: "authentication",

@@ -117,7 +117,7 @@ export default function Header() {
                                 <div className="user"><FaUserCircle className="user-icon" /><span className="user-name">{user?.name}</span></div>
                                 <div className="dropdown-content">
                                     <Link to="/account">Account</Link>
-                                    <Link to="/order">Order</Link>
+                                    <Link to="/orders">Orders</Link>
                                     <Link onClick={logout}><i className="fas fa-sign-out"></i>Log Out</Link>
                                 </div>
                             </div>
