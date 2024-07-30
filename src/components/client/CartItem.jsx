@@ -1,36 +1,58 @@
 import './cartitem.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DELETE_CART_ITEM, POST_UPDATE_QUANTITY } from "../../utils/constants"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { increment } from "../../redux/slice/cartSlice"
 
 const CartItem = ({ item }) => {
-    let [quantity, setQuantity] = useState(1)
-
-    const dispatch = useDispatch()
-
+    let [quantity, setQuantity] = useState(item?.quantity)
+    const user = useSelector((store) => store.user.userInfo)
 
     const deleteItem = async (itemID) => {
         try {
             const response = await fetch(DELETE_CART_ITEM + itemID, {
                 method: 'DELETE',
                 credentials: 'include',
+                headers: {
+                    Authorization: `Bearer ${user?.accessToken}`
+                }
             });
-
             if (response.ok) {
                 const responseData = await response.json();
                 // dispatch(addUserInfo(responseData?.userInfo))
             } else {
                 const errorData = await response.json();
-                toast(errorData.message)
+                console.log(errorData.message)
+                // toast(errorData.message)
             }
         } catch (error) {
-            toast("An error occurred while processing your request.")
+            console.log(error)
+            // toast("An error occurred while processing your request.")
         }
     };
 
-    const updateQuantity = async (itemID) => {
-        console.log(itemID)
+    const debounce = () => {
+        return () => {
+            setTimeout(() => {
+                console.log(hello)
+            }, 1000)
+        }
+    }
+
+    useEffect(() => {
+        let timerID = setTimeout(() => { updateQuantity }, 2000)
+        return () => {
+            clearTimeout(timerID)
+        }
+    }, [quantity])
+
+    const updateQuantity = async (quantity) => {
+        console.log(quantity)
+        // setQuantity(quantity)
+
+        // setQuantity(prev => prev <= 1 ? 1 : quantity - 1)
+        // debounce(quantity)
+
         // dispatch(increment({ itemID, foodID, quantity }))
         // try {
         //     const response = await fetch(POST_UPDATE_QUANTITY + itemID, {
@@ -56,6 +78,21 @@ const CartItem = ({ item }) => {
     }
 
 
+
+    const debouncing = (fun, wait) => {
+        let timerID
+        return (...args) => {
+            clearTimeout(timerID)
+            timerID = setTimeout(() => fun(...args), wait)
+        }
+    }
+
+    const callAPI = (quantity) => {
+        console.log(quantity)
+        setQuantity(quantity)
+    }
+    const debouncedCallApi = debouncing(callAPI, 500)
+
     return (
         <tr className="food-item">
             <td>
@@ -63,10 +100,9 @@ const CartItem = ({ item }) => {
             </td>
             <td className="food-name">{item?.product?.name}</td>
             <td className="quantity-container">
-                <button onClick={() =>updateQuantity(false) } className="quantity-btn">-</button>
-                {item?.quantity}
-                <button onClick={() => updateQuantity(true)} className="quantity-btn">+</button>
-                {/* <button onClick={() => dispatch(increment({ id: item?._id, quantity: quantity += 1 }))} className="quantity-btn">+</button> */}
+                <button onClick={() => debouncedCallApi(quantity -= 1)} className="quantity-btn">-</button>
+                {quantity}
+                <button onClick={() => debouncedCallApi(quantity += 1)} className="quantity-btn">+</button>
             </td>
             <td className="food-price">{item?.product?.price * item?.quantity}</td>
             <td>

@@ -9,6 +9,13 @@
   --main-color: #5fa30f;
   --primary-color: #acacac;
   --icon-color: #525252;
+
+  --dsh-clr1:#332e55;
+  --dsh-clr2:#ffa436;
+  --dsh-clr3:#898989;
+  --dsh-clr4:#f4f4f4;
+  --dsh-clr5:#3c3c3c;
+  --dsh-clr7:#fff;
 }
 
 
@@ -32,7 +39,7 @@
   border-bottom: 1px solid #eaeaea;
 }
 
-.direction{
+.direction {
   flex-direction: column;
 }
 
@@ -43,192 +50,3 @@
   border: none;
   background-color: #5fa30f;
 }
-
-
-
-/* .heading {
-  font-family: Arial;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 30px;
-}
-
-/*========================= Dashboard=================== */
-
-/* 
-.dashboard {
-  display: flex;
-}
-
-.dashboard-menu {
-  display: flex;
-  flex-direction: column;
-  background-color: #afafaf;
-  width: 15%;
-}
-
-.dash-link {
-  background: #9f9f9f;
-  display: block;
-  font-size: 22px;
-  line-height: 30px;
-  text-decoration: none;
-  text-align: center;
-  border-bottom: 1px solid gray;
-  color: black;
-  cursor: pointer;
-}
-
-.layout {
-  background-color: #c7c7c7;
-  width: 85%;
-  padding: 10px;
-  min-height: 100vh;
-}
-
-.layout-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.dashboard-card {
-  border: 1px solid #ced4da;
-  border-radius: 0.375rem;
-  margin: 7px;
-  padding: 60px 60px;
-  text-align: center;
-  background-color: #dfdfdf;
-}
-
-.input-field {
-  padding: 5px 7px;
-  font-size: 15px;
-  margin-block: 10px;
-  width: 100%;
-}
-
-
-
-span.dropdown-box {
-  display: flex;
-  flex-direction: column;
-  background-color: #ededed;
-  text-align: center;
-  line-height: 35px;
-}
-
-
-a.bold-nav-link.dropdown-nav {
-  border-bottom: 1px solid #cbcbcb;
-  min-width: 12px;
-}
-
-
-.change-log {
-  display: flex;
-  justify-content: center;
-  padding-block: 20px;
-  font-size: 1.5rem;
-  border: none;
-}
-
-
-.change-log-btn {
-  border-right: none;
-  padding: 5px 20px;
-  border-radius: 15%
-}
-
-.change-log-reg {
-  border-left: none;
-  padding: 5px 20px;
-  border-radius: 15%
-} */
-
-/*========================= Dashboard  end=================== */
-
-
-
-
-
-
-
-
-/* mobile responsive */
-/*
- @media only screen and (max-width:600px) {
-
-  .container {
-    width: 100%;
-  }
-
-  .container.quality {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .search {
-    display: none;
-  }
-
-  .res-nav-link {
-    display: none;
-  }
-
-  i {
-    font-size: 2.2rem;
-  }
-
-  .user-name {
-    font-size: 2.2rem;
-  }
-
-  .header-link {
-    width: 100%;
-    justify-content: space-evenly;
-  }
-
-  .banner_text {
-    display: none;
-  }
-
-  .Categories {
-    width: auto;
-  }
-
-  .product_container {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .product {
-    width: auto;
-  }
-
-  .ad {
-    width: auto;
-  }
-
-  .ad-container {
-    flex-direction: column
-  }
-
-  .deals {
-    display: none;
-  }
-
-  .subimage,
-  .content {
-    display: none;
-  }
-
-  .footer_container {
-    flex-wrap: wrap;
-  }
-
-  .footer_child {
-    width: auto;
-  }
-} 
-  */

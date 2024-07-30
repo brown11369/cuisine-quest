@@ -4,38 +4,44 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
+import { addRestaurantInfo } from "../redux/slice/restaurantSlice";
 
 const useAccess = (url) => {
-    const dispatch = useDispatch()
-    const redirect = useNavigate()
+    const dispatch = useDispatch();
+    const redirect = useNavigate();
 
-    // const user = useSelector(store => store.user.userInfo)
-    // const UserID = user?._id;
+    const persist = localStorage.getItem("persist");
 
     useEffect(() => {
-        (async () => {
-            const response = await fetch(`${POST_ACCESS_TOKEN + url}`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            if (response.ok) {
-                const responseData = await response.json()
-                dispatch(addUserInfo(responseData?.userInfo))
-            }
-            else if (response.status == 403) {
-                redirect("/");
-            }
-            else if (response.status == 401) {
-                redirect("/");
-            }
-            else {
-                redirect("/");
-            }
-
-        })()
+        if (persist) {
+            (async () => {
+                const response = await fetch(`${POST_ACCESS_TOKEN + url}`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                if (response.ok) {
+                    const responseData = await response.json()
+                    if (url === "user") {
+                        dispatch(addUserInfo(responseData?.credential))
+                    }
+                    else if (url === "restaurant") {
+                        dispatch(addRestaurantInfo(responseData?.credential))
+                    }
+                }
+                else if (response.status == 403) {
+                    redirect("/");
+                }
+                else if (response.status == 401) {
+                    redirect("/");
+                }
+                else {
+                    redirect("/");
+                }
+            })()
+        }
     }, [dispatch])
 }
 

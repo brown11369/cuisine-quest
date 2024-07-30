@@ -1,0 +1,50 @@
+.panel {
+    display: flex;
+    position: relative;
+}
+
+.panel-pages {
+    padding: 45px 15px 15px 15px;;
+    background-color: var(--dsh-clr4);
+    position: absolute;
+    left: 130px;
+    width: calc(100% - 130px);
+    min-height: 100vh;
+}
+
+/* ====================================== dashboard page ====================================== */
+
+/* .main-container{
+    background-color: blue;
+} */
+
+.dashboard-card {
+    display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: space-between;
+}
+
+.dashboard-card div {
+    border-radius: 20px;
+    padding: 10px;
+    height: 250px;
+    width: 250px;
+    background-color: aqua;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 40px;
+    background-color: var(--dsh-clr5);
+    color: #fff;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    font-style: normal;
+    text-transform: capitalize;
+    position: fixed;
+    z-index: 7;
+    width: 100%;
+}

@@ -5,7 +5,7 @@ const userSlice = createSlice({
     initialState: {
         userInfo: {
             _id: "",
-            userName: "Demo",
+            name: "Demo",
             email: "demo@email.com",
             accessToken: null
         }
@@ -33,7 +33,7 @@ export const fetchUserCart = (userId) => async (dispatch) => {
     try {
         const response = await fetch(`${GET_CART_ITEMS}${userId}`);
         const data = await response.json();
-        
+
         if (data.success) {
             // Dispatch an action to set the cart items in the Redux state
             dispatch(setCartItems(data.cartItems)); // Adjust based on your actual response structure

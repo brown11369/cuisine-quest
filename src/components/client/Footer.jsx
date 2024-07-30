@@ -11,7 +11,8 @@ export default function Footer() {
                         <li className="quick_link"><Link className="quick_tag" to="/shop">Shop</Link></li>
                         <li className="quick_link"><Link className="quick_tag" to="/contact">Contact</Link></li>
                         <li className="quick_link"><Link className="quick_tag" to="/cart">Cart</Link></li>
-                        <li className="quick_link"><Link className="quick_tag" to="/restaurant-sign">Vendor</Link></li>
+                        <li className="quick_link"><Link className="quick_tag" to="/admin/authentication">Admin</Link></li>
+                        <li className="quick_link"><Link className="quick_tag" to="/restaurant/authentication">Restaurant</Link></li>
                     </ul>
                 </div>
 

@@ -23,7 +23,7 @@ const Cart = () => {
       </div>
     )
   }
-  
+
   const orderData = {
     user: user._id,
     items: cartItem,
@@ -41,8 +41,10 @@ const Cart = () => {
         },
         body: JSON.stringify(order)
       })
+      console.log("lol res",res)
 
       let data = await res.json();
+      console.log("lol data",data)
       await stripe.redirectToCheckout({
         sessionId: data.stripeSession.id
       })
@@ -55,6 +57,10 @@ const Cart = () => {
   return (
     <div className="container">
       <div className="container-center direction">
+        <div>
+          <span>Total : {totalPrice} ₹</span>
+          <button onClick={() => { handlePayment(orderData) }}>checkout</button>
+        </div>
         <table>
           {/* <thead>
             <tr>
@@ -69,10 +75,7 @@ const Cart = () => {
             {cartItem && cartItem.map((item) => <CartItem key={item?._id} item={item} />)}
           </tbody>
         </table>
-        <div>
-          <span>Total : {totalPrice} ₹</span>
-          <button onClick={() => { handlePayment(orderData) }}>checkout</button>
-        </div>
+
       </div>
     </div>
   );

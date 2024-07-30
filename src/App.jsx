@@ -4,8 +4,6 @@ import Layout from './pages/Layout';
 import ClientLayout from './pages/client/ClientLayout';
 import Home from "./pages/client/Home"
 import RestaurntLayout from './pages/restaurant/RestaurantLayout';
-import RestaurantDashboard from './pages/restaurant/RestaurantDashboard';
-import Food from './pages/restaurant/Food';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import User from './pages/admin/User';
@@ -17,12 +15,21 @@ import Cart from './pages/client/Cart';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import Order from './pages/client/Order';
+import Account from './pages/client/Account';
+// import Error from './pages/Error';
+import RestaurantAuth from './pages/restaurant/RestaurantAuth';
+import AdminAuth from './pages/admin/AdminAuth';
+import Overview from './pages/restaurant/Overview';
+import Products from './pages/restaurant/Products';
+import RestaurantOrder from './pages/restaurant/RestaurantOrder';
+import Profile  from './pages/restaurant/Profile'
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    // errorElement: <Error />,
     children: [
       {
         element: <ClientLayout />,
@@ -33,43 +40,67 @@ const router = createBrowserRouter([
           },
           {
             path: "restaurants",
-            element: <Restaurants/>
+            element: <Restaurants />
           },
           {
             path: "shop",
-            element: <Shop/>
+            element: <Shop />
           },
           {
             path: "contact",
-            element: <Contact/>
+            element: <Contact />
           },
           {
             path: "cart",
-            element: <Cart/>
+            element: <Cart />
+          },
+          {
+            path: "account",
+            element: <Account />
           },
           {
             path: "orders",
-            element: <Order/>
+            element: <Order />
           },
           {
             path: "authentication",
-            element: <UserAuth/>
+            element: <UserAuth />
           },
         ]
       },
       {
-        path: "restaurant-dashboard",
+        path: 'restaurant/authentication',
+        element: <RestaurantAuth />
+      },
+      {
+        path: "restaurant",
         element: <RestaurntLayout />,
         children: [
           {
             index: true,
-            element: <RestaurantDashboard />
+            element: <Overview />
           },
           {
-            path: 'food',
-            element: <Food />
+            path: "overview",
+            element: <Overview />
           },
-        ]
+          {
+            path: "products",
+            element: <Products />
+          },
+          {
+            path: "orders",
+            element: <RestaurantOrder />
+          },
+          {
+            path:"profile",
+            element:<Profile/>
+          }
+        ],
+      },
+      {
+        path: 'admin/authentication',
+        element: <AdminAuth />
       },
       {
         path: "admin-dashboard",

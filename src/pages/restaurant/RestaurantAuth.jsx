@@ -1,15 +1,16 @@
-import "./userauth.css";
+import "./restaurantauth.css";
 import { useState } from "react";
 import { BiSolidHide, BiShowAlt } from "react-icons/bi";
-import { POST_USER_LOGIN, POST_USER_REGISTER } from "../../utils/constants";
-import { addUserInfo } from "../../redux/slice/userSlice";
+import { POST_RESTAURANT_REGISTER, POST_RESTAURANT_LOGIN } from "../../utils/constants";
+import { addRestaurantInfo } from "../../redux/slice/restaurantSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const UserAuth = () => {
+const RestaurantAuth = () => {
+
     const [change, setChange] = useState(true)
     const [loginData, setLoginData] = useState({
         email: "",
@@ -18,9 +19,14 @@ const UserAuth = () => {
 
     const [registerData, setRegisterData] = useState({
         name: "",
+        description: "",
         email: "",
         contact: "",
-        shippingAddress: "",
+        ownerName: "",
+        address: "",
+        open: "",
+        close: "",
+        imageURL: "",
         password: "",
     })
     const [showPassword, setShowPassword] = useState(false);
@@ -46,7 +52,7 @@ const UserAuth = () => {
     const handleLogin = async (event) => {
         event.preventDefault();      // Set loading message when form is submitted
         try {
-            const response = await fetch(POST_USER_LOGIN, {
+            const response = await fetch(POST_RESTAURANT_LOGIN, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -57,10 +63,11 @@ const UserAuth = () => {
 
             if (response.ok) {
                 const responseData = await response.json();
-                dispatch(addUserInfo(responseData?.credential))
+                console.log(responseData)
+                dispatch(addRestaurantInfo(responseData?.restaurantInfo))
                 await localStorage.setItem("persist", JSON.stringify(true));
                 setLoginData({ email: "", password: "", })
-                navigate("/");
+                navigate("/restaurant");
             } else {
                 const errorData = await response.json();
                 toast(errorData.message)
@@ -74,7 +81,7 @@ const UserAuth = () => {
     const handleRegister = async (event) => {
         event.preventDefault();      // Set loading message when form is submitted
         try {
-            const response = await fetch(POST_USER_REGISTER, {
+            const response = await fetch(POST_RESTAURANT_REGISTER, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -85,7 +92,7 @@ const UserAuth = () => {
 
             if (response.ok) {
                 const responseData = await response.json();
-                toast("You are registered...")
+                toast(responseData?.message)
                 setChange(true)
             } else {
                 const errorData = await response.json();
@@ -96,9 +103,13 @@ const UserAuth = () => {
         }
     }
 
+
+
+
     return (
         <section className="main-container">
             <div className="auth-container">
+                <h2>Restaurant</h2>
                 <div>
                     <button className="login-btn" onClick={() => setChange(true)}>Login</button>
                     <button className="change-log-reg" onClick={() => setChange(false)}>Registration</button>
@@ -123,10 +134,10 @@ const UserAuth = () => {
                     </form>
                 ) : (
                     <form onSubmit={handleRegister}>
-                        <input type="text" name="name" onChange={regiInputHandler} value={registerData.name} className="register-input" placeholder="User Name" />
+                        <input type="text" name="name" onChange={regiInputHandler} value={registerData.name} className="register-input" placeholder="Restaurant Name" />
                         <input type="text" name="email" onChange={regiInputHandler} value={registerData.email} className="register-input" placeholder="Email" />
                         <input type="text" name="contact" onChange={regiInputHandler} value={registerData.contact} className="register-input" placeholder="Phone No." />
-                        <input type="text" name="shippingAddress" onChange={regiInputHandler} value={registerData.shippingAddress} className="register-input" placeholder="Shipping Address" />
+                        <input type="text" name="ownerName" onChange={regiInputHandler} value={registerData.shippingAddress} className="register-input" placeholder="Restaurant Owner Name" />
                         <div className="password-visible-input">
                             <input
                                 type={showPassword ? 'text' : 'password'}
@@ -146,8 +157,12 @@ const UserAuth = () => {
             </div>
             <ToastContainer />
         </section>
+
     )
 }
 
+export default RestaurantAuth;
 
-export default UserAuth;
+
+
+

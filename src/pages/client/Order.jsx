@@ -19,7 +19,7 @@ const Order = () => {
           }
 
           const fetchData = await response.json();
-          console.log(fetchData?.orderData.reverse());
+          // console.log(fetchData?.orderData.reverse());
           setOrders(fetchData?.orderData.reverse());
         }
       } catch (err) {
@@ -28,51 +28,26 @@ const Order = () => {
     })();
   }, [userId])
 
-
   return (
-    <div className='orders'>
-      <h2>Orders</h2>
-      <div className='orders_container'>
-        {
-          orders?.map((list, index) => {
-            return (
-              <div className='card' key={index}>
-                <div className='title'>
-                  <strong>OrderID :</strong>
-                  <p>{list?._id}</p>
-                </div>
-                <div className='list'>
-                  {
-                    list?.items.map((item, index) => {
-                      return (
-                        <>
-                          <details key={index}>
-                            <summary>
-                              <div>
-                                <h4>Item : {item?.product?.name}</h4>
-                              </div>
-                              <div>
-                                <p><strong>SubTotal : {(item?.product?.price) * (item?.quantity)}</strong></p>
-                              </div>
-                            </summary>
-                            <p><strong>Quantity : {item?.quantity}</strong></p>
-                            <p><strong>Price : {item?.product?.price}</strong></p>
-
-                          </details>
-                        </>
-                      )
-                    })
-                  }
-                </div>
-                <div className='total'>
-                  <strong><p>Total {list?.totalItems} value :{list?.totalPrice}</p></strong>
-                </div>
-              </div>
-            )
-          })
-        }
-      </div>
+    <div className="orders-container">
+      {orders?.map((list, index) => (
+        <details key={index} className="order-details">
+          <summary className="order-summary">
+            <p>{list?._id}</p>
+            <strong>{list?.totalPrice} ₹</strong>
+            <p>{list?.createdAt}</p>
+          </summary>
+          {list?.items.map((item, indx) => (
+            <div key={indx} className="order-item">
+              <p>{item?.product?.name}</p>
+              <p> {item?.quantity} * {item?.product?.price} = {(item?.product?.price) * (item?.quantity)} ₹</p>
+              <img src={item?.product?.imageURL} alt={item?.product?.name} className="product-image" />
+            </div>
+          ))}
+        </details>
+      ))}
     </div>
+
   )
 }
 

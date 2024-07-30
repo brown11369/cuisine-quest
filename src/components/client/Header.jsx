@@ -12,13 +12,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Header() {
-    useAccess("user");
     const dispatch = useDispatch()
     const redirect = useNavigate()
     const user = useSelector(store => store.user.userInfo)
     const cartTotalItems = useSelector(store => store.cart.totalQuantity)
 
     const UserID = user?._id;
+    useAccess("user", String(UserID))
 
     useEffect(() => {
         fetch(GET_ALL_PUBLISHED_product)
@@ -75,6 +75,7 @@ export default function Header() {
             })
             if (response.ok) {
                 const responseData = await response.json()
+                localStorage.removeItem("persist");
                 toast(responseData?.message)
                 dispatch(removeAccessToken())
                 redirect("/")
@@ -87,7 +88,6 @@ export default function Header() {
         catch (err) {
             toast("An error occurred while processing your request.")
         }
-
     }
 
     return (
@@ -96,7 +96,7 @@ export default function Header() {
             <header className="container header">
                 <div className="container-center border-line">
                     <div className="logo">
-                        <Link to="/"><h1>Shokumo<span className="fury">fry</span></h1></Link>
+                        <Link to="/"><h1>Cuisine<span className="fury">quest</span></h1></Link>
                     </div>
                     <div className="search-box">
                         <input className="search-input" type="text" placeholder="Search Malai Tikka" />

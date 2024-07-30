@@ -1,0 +1,26 @@
+.dashboard-navbar {
+    height: 100vh;
+    background-color: var(--dsh-clr2);
+    position: fixed;
+    top: 0;
+    z-index: -1;
+    padding-top: 30px;
+}
+
+.dashboard-navbar li {
+    border-bottom: 0.5px solid var(--dsh-clr5);
+}
+
+
+.dashboard-navbar .menu-item {
+    color: var(--dsh-clr5);
+    display: block;
+    font-size: 15px;
+    width: 130px;
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.dashboard-navbar .menu-item:hover {
+    background-color: #ffbf71
+}
