@@ -6,12 +6,16 @@
     top: 0;
 }
 
-.logo {
+.logo-container {
     line-height: 80px;
 }
 
-.fury {
-    color: #5fa30f;
+.logo {
+    color: #38833D;
+}
+
+.logo span {
+    color: var(--primary-color);
 }
 
 .search-box {
@@ -24,7 +28,7 @@
     height: 40px;
     font-size: 15px;
     text-indent: 10px;
-    border: 1px solid #5fa30f;
+    border: 1px solid var(--primary-color);
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     border-right: none;
@@ -99,7 +103,7 @@
     cursor: pointer;
     border-radius: 15px;
     padding-right: 15px;
-    background-color: #5fa30f;
+    background-color: var(--primary-color);
     color: #fff;
     display: flex;
     align-items: center;

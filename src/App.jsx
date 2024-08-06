@@ -22,7 +22,10 @@ import AdminAuth from './pages/admin/AdminAuth';
 import Overview from './pages/restaurant/Overview';
 import Products from './pages/restaurant/Products';
 import RestaurantOrder from './pages/restaurant/RestaurantOrder';
-import Profile  from './pages/restaurant/Profile'
+import Profile from './pages/restaurant/Profile'
+
+import OrderComplete from './pages/client/OrderComplete';
+import OrderCancel from './pages/client/OrderCancel';
 
 
 const router = createBrowserRouter([
@@ -63,6 +66,14 @@ const router = createBrowserRouter([
             element: <Order />
           },
           {
+            path: "orders/complete",
+            element: <OrderComplete />
+          },
+          {
+            path: "orders/cancel",
+            element: <OrderCancel />
+          },
+          {
             path: "authentication",
             element: <UserAuth />
           },
@@ -93,8 +104,8 @@ const router = createBrowserRouter([
             element: <RestaurantOrder />
           },
           {
-            path:"profile",
-            element:<Profile/>
+            path: "profile",
+            element: <Profile />
           }
         ],
       },

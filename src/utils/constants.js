@@ -29,7 +29,9 @@ export const GET_CART_ITEMS = `${URL}/cart/items/`;
 export const DELETE_CART_ITEM = `${URL}/cart/remove/`;
 
 // checkout
-export const POST_CHECKOUT = `${URL}/checkout/create-session`;
+export const POST_CHECKOUT_SESSION = `${URL}/checkout/create-session`;
+export const PATCH_CHECKOUT_COMPLETE = `${URL}/checkout/complete/`;
+export const PATCH_CHECKOUT_CANCEL = `${URL}/checkout/cancel/`;
 
 // orders
 export const GET_ORDERS = `${URL}/order/`;
@@ -39,4 +41,4 @@ export const POST_RESTAURANT_REGISTER = `${URL}/restaurant/register`;
 export const POST_RESTAURANT_LOGIN = `${URL}/restaurant/login`;
 export const POST_RESTAURANT_LOGOUT = `${URL}/restaurant/logout`;
 
-export const GET_RESTAURANT_PRODUCTS=`${URL}/product/restaurant/`
+export const GET_RESTAURANT_PRODUCTS = `${URL}/product/restaurant/`

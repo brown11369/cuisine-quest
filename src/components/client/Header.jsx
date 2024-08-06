@@ -76,13 +76,13 @@ export default function Header() {
             if (response.ok) {
                 const responseData = await response.json()
                 localStorage.removeItem("persist");
-                toast(responseData?.message)
-                dispatch(removeAccessToken())
-                redirect("/")
+                toast(responseData?.message);
+                dispatch(removeAccessToken());
+                redirect("/");
             }
             else {
                 const errorData = await response.json();
-                toast(errorData.message)
+                toast(errorData.message);
             }
         }
         catch (err) {
@@ -95,8 +95,8 @@ export default function Header() {
             {/* <!-- ------- header section ------- --> */}
             <header className="container header">
                 <div className="container-center border-line">
-                    <div className="logo">
-                        <Link to="/"><h1>Cuisine<span className="fury">quest</span></h1></Link>
+                    <div className="logo-container">
+                        <Link to="/"><h1 className="logo">Cuisine<span>quest</span></h1></Link>
                     </div>
                     <div className="search-box">
                         <input className="search-input" type="text" placeholder="Search Malai Tikka" />

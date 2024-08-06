@@ -1,4 +1,100 @@
+.cart-flow{
+  flex-direction: column;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.total-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.checkout-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1rem;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.checkout-button:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+.empty-cart-container {
+  text-align: center;
+  padding: 50px;
+}
+
+.empty-cart-image {
+  width: 150px;
+  height: auto;
+}
+
+.empty-cart-text {
+  font-size: 1.25rem;
+  color: #666;
+}
+
+
+
 table {
   width: 100%;
   padding-block: 30px;
+}
+
+
+
+
+
+
+
+.food-item td {
+  text-align: center;
+}
+
+.food-name {
+  font-weight: bold;
+}
+
+.quantity-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-btn {
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.remove-btn {
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.food-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
 }
