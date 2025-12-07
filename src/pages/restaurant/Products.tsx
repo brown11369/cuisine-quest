@@ -1,15 +1,15 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { GET_RESTAURANT_PRODUCTS } from "../../utils/constants";
 import { addRestaurantProducts } from "../../redux/slice/restaurantSlice";
 import { useNavigate } from "react-router-dom";
 import { FaRegTrashAlt, FaRegEdit, FaCircle } from "react-icons/fa";
 
 export default function Products() {
-    const restaurant = useSelector((store) => store.restaurant.restaurantInfo)
-    const products = useSelector((store) => store.restaurant.restaurantProducts)
+    const restaurant = useAppSelector((store) => store.restaurant.restaurantInfo)
+    const products = useAppSelector((store) => store.restaurant.restaurantProducts)
     const restaurantID = restaurant?._id
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const redirect = useNavigate()
 
     console.log(products)

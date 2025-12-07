@@ -1,13 +1,13 @@
 import { addUserInfo } from "../redux/slice/userSlice";
 import { POST_ACCESS_TOKEN } from "../utils/constants";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch } from "@/redux/hooks";
 
 import { useNavigate } from "react-router-dom";
-import { addRestaurantInfo } from "../redux/slice/restaurantSlice";
+import { addRestaurantInfo } from "@/redux/slice/restaurantSlice";
 
 const useAccess = (url) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const redirect = useNavigate();
 
     const persist = localStorage.getItem("persist");

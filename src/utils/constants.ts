@@ -11,8 +11,8 @@ export const POST_ACCESS_TOKEN = `${URL}/access-token/generate/`;
 
 
 // user auth
-export const POST_USER_REGISTER = `${URL}/user/register`;
-export const POST_USER_LOGIN = `${URL}/user/login`;
+export const POST_USER_REGISTER = `${URL}/user/registers`;
+export const POST_USER_LOGIN = `${URL}/user/logins`;
 export const POST_USER_LOGOUT = `${URL}/user/logout`;
 
 

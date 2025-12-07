@@ -1,5 +1,5 @@
 import './OrderCancel.css'; // Import the CSS file for additional styling
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { FaTimesCircle } from 'react-icons/fa';
 import { PATCH_CHECKOUT_CANCEL } from '../../utils/constants';

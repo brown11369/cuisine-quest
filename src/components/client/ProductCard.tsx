@@ -1,5 +1,5 @@
 import "./productcard.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { POST_ADD_ITEM } from "../../utils/constants"
 import { useNavigate } from "react-router-dom";
 import { pushToCart } from "../../redux/slice/cartSlice"
@@ -7,10 +7,10 @@ import { ToastContainer, toast } from 'react-toastify';
 
 
 function ProductCard({ product }) {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const navigate = useNavigate()
-    const user = useSelector(store => store.user.userInfo)
+    const user = useAppSelector(store => store.user.userInfo)
     let cartData = { user: user?._id };
 
 

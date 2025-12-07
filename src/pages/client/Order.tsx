@@ -1,10 +1,10 @@
 import "./order.css"
 import { useEffect, useState } from 'react';
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/redux/hooks";
 import { GET_ORDERS } from "../../utils/constants"
 
 const Order = () => {
-  const user = useSelector(store => store.user.userInfo)
+  const user = useAppSelector(store => store.user.userInfo)
   const userId = user?._id;
   const [orders, setOrders] = useState(null);
 

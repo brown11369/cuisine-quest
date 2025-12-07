@@ -1,12 +1,11 @@
 import "./home.css";
-import ProductCard from "../../components/client/ProductCard";
-import Banner from "../../components/client/Banner";
+import ProductCard from "@/components/client/ProductCard";
+import Banner from "@/components/client/Banner";
 import { MdDeliveryDining, MdAccessTimeFilled, MdPayments, MdOutlineSupportAgent } from "react-icons/md";
-import Deals from "../../components/client/Deals";
-import { useSelector } from "react-redux";
+import {  useAppSelector } from "@/redux/hooks";
 
 const Home = () => {
-    const products = useSelector(store => store.product.products)
+    const products = useAppSelector(store => store.product.products)
 
     return (
         <>

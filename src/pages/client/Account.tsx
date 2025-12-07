@@ -1,8 +1,8 @@
 import "./account.css"
-import { useSelector } from "react-redux"
+import {  useAppSelector } from "@/redux/hooks";
 
 const Account = () => {
-    let user = useSelector((store) => store.user.userInfo)
+    let user = useAppSelector((store) => store.user.userInfo)
     console.log(user)
     return (
         <div className="user-profile">

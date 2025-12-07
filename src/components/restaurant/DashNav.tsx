@@ -3,7 +3,7 @@ import "./dashnav.css"
 import { POST_RESTAURANT_LOGOUT } from "../../utils/constants";
 import { Link, useNavigate } from "react-router-dom";
 import { removeAccessToken } from "../../redux/slice/restaurantSlice"
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/redux/hooks";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const DashNav = () => {
     const redirect = useNavigate()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const restaurantLogout = async () => {
         try {
@@ -23,7 +23,6 @@ const DashNav = () => {
                 },
             })
             if (fetchResponse.ok) {
-                const responseData = await fetchResponse.json()
                 dispatch(removeAccessToken())
                 redirect("/restaurant/authentication")
             }

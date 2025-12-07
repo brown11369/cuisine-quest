@@ -1,10 +1,10 @@
 import { FaUser } from "react-icons/fa";
-import { useSelector } from "react-redux"
-import useAccess from "../../hooks/useAccess";
+import {  useAppSelector } from "@/redux/hooks";
+import useAccess from "@/hooks/useAccess";
 
 
 const RestaurantToolbar = () => {
-    const restaurantInfo = useSelector(store => store.restaurant.restaurantInfo)
+    const restaurantInfo =  useAppSelector(store => store.restaurant.restaurantInfo)
     useAccess("restaurant")
     return (
         <div className="toolbar">

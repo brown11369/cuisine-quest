@@ -1,17 +1,17 @@
 import "./cart.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { STRIP_KEY, POST_CHECKOUT_SESSION } from "../../utils/constants";
 import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
 import { increment, decrement, removeItem } from "../../redux/slice/cartSlice";
 
 const Cart = () => {
-  const user = useSelector((store) => store.user.userInfo);
-  const cartItems = useSelector((store) => store.cart.items);
-  const totalItems = useSelector((store) => store.cart.totalQuantity);
-  const totalPrice = useSelector((store) => store.cart.totalPrice);
+  const user = useAppSelector((store) => store.user.userInfo);
+  const cartItems = useAppSelector((store) => store.cart.items);
+  const totalItems = useAppSelector((store) => store.cart.totalQuantity);
+  const totalPrice = useAppSelector((store) => store.cart.totalPrice);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
 
   const stripePromise = loadStripe(STRIP_KEY);

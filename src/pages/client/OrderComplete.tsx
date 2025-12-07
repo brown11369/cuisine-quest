@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import {  useAppSelector } from "@/redux/hooks";
 import { FaCheckCircle } from 'react-icons/fa';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PATCH_CHECKOUT_COMPLETE } from '../../utils/constants';
 import './OrderComplete.css';
@@ -14,7 +14,7 @@ const OrderComplete = () => {
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const session_id = queryParams.get('session_id');
-    const user = useSelector((store) => store.user.userInfo);
+    const user = useAppSelector((store) => store.user.userInfo);
 
     useEffect(() => {
         if (session_id) {

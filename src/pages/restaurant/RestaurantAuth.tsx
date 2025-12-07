@@ -4,7 +4,7 @@ import { BiSolidHide, BiShowAlt } from "react-icons/bi";
 import { POST_RESTAURANT_REGISTER, POST_RESTAURANT_LOGIN } from "../../utils/constants";
 import { addRestaurantInfo } from "../../redux/slice/restaurantSlice";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/redux/hooks";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -30,7 +30,7 @@ const RestaurantAuth = () => {
         password: "",
     })
     const [showPassword, setShowPassword] = useState(false);
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const navigate = useNavigate()
 

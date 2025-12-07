@@ -1,8 +1,8 @@
 import ProductCard from "../../components/client/ProductCard";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/redux/hooks";
 
 const Shop = () => {
-    const products = useSelector(store => store.product.products)
+    const products = useAppSelector(store => store.product.products)
 
     return (
         <div className="container food-container">

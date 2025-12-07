@@ -1,15 +1,16 @@
-import "./userauth.css";
+import "./adminauth.css";
 import { useState } from "react";
 import { BiSolidHide, BiShowAlt } from "react-icons/bi";
 import { POST_USER_LOGIN, POST_USER_REGISTER } from "../../utils/constants";
 import { addUserInfo } from "../../redux/slice/userSlice";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useAppDispatch} from "@/redux/hooks";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const UserAuth = () => {
+const AdminAuth = () => {
+
     const [change, setChange] = useState(true)
     const [loginData, setLoginData] = useState({
         email: "",
@@ -18,13 +19,18 @@ const UserAuth = () => {
 
     const [registerData, setRegisterData] = useState({
         name: "",
+        description: "",
         email: "",
         contact: "",
-        shippingAddress: "",
+        ownerName: "",
+        address: "",
+        open: "",
+        close: "",
+        imageURL: "",
         password: "",
     })
     const [showPassword, setShowPassword] = useState(false);
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const navigate = useNavigate()
 
@@ -57,7 +63,7 @@ const UserAuth = () => {
 
             if (response.ok) {
                 const responseData = await response.json();
-                dispatch(addUserInfo(responseData?.credential))
+                dispatch(addUserInfo(responseData?.userInfo))
                 await localStorage.setItem("persist", JSON.stringify(true));
                 setLoginData({ email: "", password: "", })
                 navigate("/");
@@ -84,7 +90,6 @@ const UserAuth = () => {
             });
 
             if (response.ok) {
-                const responseData = await response.json();
                 toast("You are registered...")
                 setChange(true)
             } else {
@@ -96,9 +101,13 @@ const UserAuth = () => {
         }
     }
 
+
+
+
     return (
         <section className="main-container">
             <div className="auth-container">
+                <h2>Admin</h2>
                 <div>
                     <button className="login-btn" onClick={() => setChange(true)}>Login</button>
                     <button className="change-log-reg" onClick={() => setChange(false)}>Registration</button>
@@ -146,8 +155,12 @@ const UserAuth = () => {
             </div>
             <ToastContainer />
         </section>
+
     )
 }
 
+export default AdminAuth;
 
-export default UserAuth;
+
+
+
