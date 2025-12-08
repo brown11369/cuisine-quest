@@ -1,41 +1,41 @@
 .orders-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .order-details {
-    margin-bottom: 15px;
-    background-color: #f0f0f0;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .order-summary {
-    padding: 10px;
-    background-color: #e0e0e0;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+  padding: 10px;
+  background-color: #e0e0e0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .order-summary p {
-    margin: 5px 0;
+  margin: 5px 0;
 }
 
 .order-item {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .order-item p {
-    margin: 5px 0;
+  margin: 5px 0;
 }
 
 .product-image {
-    width: 65px;
-    border-radius: 5px;
+  width: 65px;
+  border-radius: 5px;
 }

@@ -7,42 +7,38 @@ import { useNavigate } from "react-router-dom";
 import { addRestaurantInfo } from "@/redux/slice/restaurantSlice";
 
 const useAccess = (url) => {
-    const dispatch = useAppDispatch();
-    const redirect = useNavigate();
+  const dispatch = useAppDispatch();
+  const redirect = useNavigate();
 
-    const persist = localStorage.getItem("persist");
+  const persist = localStorage.getItem("persist");
 
-    useEffect(() => {
-        if (persist) {
-            (async () => {
-                const response = await fetch(`${POST_ACCESS_TOKEN + url}`, {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-                if (response.ok) {
-                    const responseData = await response.json()
-                    if (url === "user") {
-                        dispatch(addUserInfo(responseData?.credential))
-                    }
-                    else if (url === "restaurant") {
-                        dispatch(addRestaurantInfo(responseData?.credential))
-                    }
-                }
-                else if (response.status == 403) {
-                    redirect("/");
-                }
-                else if (response.status == 401) {
-                    redirect("/");
-                }
-                else {
-                    redirect("/");
-                }
-            })()
+  useEffect(() => {
+    if (persist) {
+      (async () => {
+        const response = await fetch(`${POST_ACCESS_TOKEN + url}`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.ok) {
+          const responseData = await response.json();
+          if (url === "user") {
+            dispatch(addUserInfo(responseData?.credential));
+          } else if (url === "restaurant") {
+            dispatch(addRestaurantInfo(responseData?.credential));
+          }
+        } else if (response.status == 403) {
+          redirect("/");
+        } else if (response.status == 401) {
+          redirect("/");
+        } else {
+          redirect("/");
         }
-    }, [dispatch])
-}
+      })();
+    }
+  }, [dispatch]);
+};
 
 export default useAccess;

@@ -69,7 +69,7 @@ class Api {
           this.retryCount = 0;
           // rootStore.user.logout();
           return Promise.reject(
-            "Authentication failed after multiple attempts"
+            "Authentication failed after multiple attempts",
           );
         }
 
@@ -79,7 +79,7 @@ class Api {
           error.message ||
           "An unknown error occurred";
         return Promise.reject(errorMessage);
-      }
+      },
     );
   }
 
@@ -88,7 +88,7 @@ class Api {
     url: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params?: any,
-    signal?: AbortSignal
+    signal?: AbortSignal,
   ): Promise<IAPIResponse> => {
     if (!baseURL) {
       return {

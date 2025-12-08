@@ -1,84 +1,83 @@
 /* main container */
-.main-container{
-    background-image: url();
-    padding: 40px 0px;
+.main-container {
+  background-image: url();
+  padding: 40px 0px;
 }
-
 
 /* auth-container */
 .auth-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f8f8f8;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Buttons */
 .auth-container button {
-    padding: 10px 20px;
-    margin: 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
 .auth-container .change-log-reg {
-    background-color: #3498db;
-    color: #fff;
+  background-color: #3498db;
+  color: #fff;
 }
 
 /* Forms and Inputs */
 .auth-container form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .auth-container input {
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
 .auth-container .password-visible-input {
-    position: relative;
+  position: relative;
 }
 
 .auth-container .password-visible-input input {
-    padding-right: 40px;
+  padding-right: 40px;
 }
 
 .auth-container .password-visible-input span {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 /* Submit button */
 .auth-container button[type="submit"] {
-    background-color: #5fa30f;
-    color: #fff;
-    font-size: 18px;
-    font-weight: bold;
-    border: none;
-    border-radius: 4px;
-    padding: 12px 20px;
-    margin-top: 10px;
-    cursor: pointer;
+  background-color: #5fa30f;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 20px;
+  margin-top: 10px;
+  cursor: pointer;
 }
 
 .auth-container button[type="submit"]:hover {
-    background-color: #7bce1a;
+  background-color: #7bce1a;
 }

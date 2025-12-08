@@ -164,26 +164,24 @@
 }
 
 @media (max-width: 1440px) {
-
 }
 
 @media (max-width: 1024px) {
- 
 }
 
 @media (max-width: 700px) {
-  .mobile-header{
+  .mobile-header {
     flex-direction: column-reverse;
   }
-  .with-search{
+  .with-search {
     display: none;
   }
-  .search-input{
+  .search-input {
     width: 100%;
     position: sticky;
     top: 0;
   }
-  .user-account{
+  .user-account {
     flex-direction: row-reverse;
     width: 100%;
     justify-content: space-between;

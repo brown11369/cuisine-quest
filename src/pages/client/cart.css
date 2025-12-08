@@ -1,4 +1,4 @@
-.cart-flow{
+.cart-flow {
   flex-direction: column;
 }
 
@@ -15,7 +15,7 @@
 }
 
 .checkout-button {
-  background-color: #4CAF50; /* Green */
+  background-color: #4caf50; /* Green */
   color: white;
   border: none;
   padding: 10px 20px;
@@ -48,18 +48,10 @@
   color: #666;
 }
 
-
-
 table {
   width: 100%;
   padding-block: 30px;
 }
-
-
-
-
-
-
 
 .food-item td {
   text-align: center;

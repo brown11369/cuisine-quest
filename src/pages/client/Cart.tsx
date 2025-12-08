@@ -11,8 +11,7 @@ const Cart = () => {
   const totalItems = useAppSelector((store) => store.cart.totalQuantity);
   const totalPrice = useAppSelector((store) => store.cart.totalPrice);
   const [loading, setLoading] = useState(false);
-  const dispatch = useAppDispatch()
-
+  const dispatch = useAppDispatch();
 
   const stripePromise = loadStripe(STRIP_KEY);
 
@@ -41,41 +40,40 @@ const Cart = () => {
     try {
       const stripe = await stripePromise;
       const res = await fetch(POST_CHECKOUT_SESSION, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(order),
       });
 
       if (!res.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
 
       const data = await res.json();
       await stripe.redirectToCheckout({ sessionId: data.stripeSession.id });
     } catch (err) {
-      console.error('Error during checkout:', err);
+      console.error("Error during checkout:", err);
     } finally {
       setLoading(false);
     }
   }
 
-
   const deleteItem = async (itemID) => {
     try {
       const response = await fetch(DELETE_CART_ITEM + itemID, {
-        method: 'DELETE',
-        credentials: 'include',
+        method: "DELETE",
+        credentials: "include",
         headers: {
-          Authorization: `Bearer ${user?.accessToken}`
-        }
+          Authorization: `Bearer ${user?.accessToken}`,
+        },
       });
       if (response.ok) {
         const responseData = await response.json();
         if (responseData.success) {
-          console.log(responseData)
-          dispatch(removeItem(item))
+          console.log(responseData);
+          dispatch(removeItem(item));
         }
       } else {
         const errorData = await response.json();
@@ -94,8 +92,9 @@ const Cart = () => {
           <button
             className="checkout-button"
             onClick={() => handlePayment(orderData)}
-            disabled={loading}>
-            {loading ? 'Processing...' : 'Checkout'}
+            disabled={loading}
+          >
+            {loading ? "Processing..." : "Checkout"}
           </button>
         </div>
         <table>
@@ -109,25 +108,48 @@ const Cart = () => {
                 </tr>
             </thead> */}
           <tbody>
-            {cartItems && cartItems.map((item) => {
-              return (
-                <tr key={item?._id} className="food-item">
-                  <td>
-                    <img src={item?.product?.imageURL} alt="" className="food-image" />
-                  </td>
-                  <td className="food-name">{item?.product?.name}</td>
-                  <td className="quantity-container">
-                    <button onClick={() => dispatch(decrement(item))} className="quantity-btn">-</button>
-                    {item?.quantity}
-                    <button onClick={() => dispatch(increment(item))} className="quantity-btn">+</button>
-                  </td>
-                  <td className="food-price">{item?.product?.price} * {item?.quantity}={item?.product?.price * item?.quantity}</td>
-                  <td>
-                    <button onClick={() => deleteItem(item?._id)} className="remove-btn">Remove</button>
-                  </td>
-                </tr>
-              )
-            })}
+            {cartItems &&
+              cartItems.map((item) => {
+                return (
+                  <tr key={item?._id} className="food-item">
+                    <td>
+                      <img
+                        src={item?.product?.imageURL}
+                        alt=""
+                        className="food-image"
+                      />
+                    </td>
+                    <td className="food-name">{item?.product?.name}</td>
+                    <td className="quantity-container">
+                      <button
+                        onClick={() => dispatch(decrement(item))}
+                        className="quantity-btn"
+                      >
+                        -
+                      </button>
+                      {item?.quantity}
+                      <button
+                        onClick={() => dispatch(increment(item))}
+                        className="quantity-btn"
+                      >
+                        +
+                      </button>
+                    </td>
+                    <td className="food-price">
+                      {item?.product?.price} * {item?.quantity}=
+                      {item?.product?.price * item?.quantity}
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => deleteItem(item?._id)}
+                        className="remove-btn"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
           {/* <tfoot>
                 <tr>

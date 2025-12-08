@@ -59,7 +59,7 @@ export default function Header() {
         });
 
         dispatch(
-          addItem({ cartData: data.cartItemData, totalItems, totalPrice })
+          addItem({ cartData: data.cartItemData, totalItems, totalPrice }),
         );
       } catch (err) {
         console.error(err);
@@ -95,7 +95,9 @@ export default function Header() {
     <>
       <header className="container header">
         <div className="container-center border-line mobile-header">
-          <div className={`logo-container ${user?.accessToken ? "with-search" : ""}`}>
+          <div
+            className={`logo-container ${user?.accessToken ? "with-search" : ""}`}
+          >
             <Link to="/">
               <h1 className="logo">
                 Fork<span>ly</span>
@@ -103,46 +105,46 @@ export default function Header() {
             </Link>
           </div>
           {/* <div className="accessible-section"> */}
-            {user?.accessToken && (
-              <input
-                className="search-input"
-                type="text"
-                placeholder="Search for Pizza..."
-              />
+          {user?.accessToken && (
+            <input
+              className="search-input"
+              type="text"
+              placeholder="Search for Pizza..."
+            />
+          )}
+
+          <div className="user-account">
+            {!user?.accessToken ? (
+              <Link to="/authentication" className="bold-link">
+                Login / Register
+              </Link>
+            ) : (
+              <>
+                <div className="cart-container">
+                  <div className="cart">
+                    <Link to="/cart">
+                      <FaShoppingCart className="cart-icon" />
+                      <span className="item-count">{cartTotalItems}</span>
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="dropdown">
+                  <div className="user">
+                    <FaUserCircle className="user-icon" />
+                    <span className="user-name">{user?.name}</span>
+                  </div>
+                  <div className="dropdown-content">
+                    <Link to="/account">Account</Link>
+                    <Link to="/orders">Orders</Link>
+                    <Link to="#" onClick={logout}>
+                      Log Out
+                    </Link>
+                  </div>
+                </div>
+              </>
             )}
-
-            <div className="user-account">
-              {!user?.accessToken ? (
-                <Link to="/authentication" className="bold-link">
-                  Login / Register
-                </Link>
-              ) : (
-                <>
-                  <div className="cart-container">
-                    <div className="cart">
-                      <Link to="/cart">
-                        <FaShoppingCart className="cart-icon" />
-                        <span className="item-count">{cartTotalItems}</span>
-                      </Link>
-                    </div>
-                  </div>
-
-                  <div className="dropdown">
-                    <div className="user">
-                      <FaUserCircle className="user-icon" />
-                      <span className="user-name">{user?.name}</span>
-                    </div>
-                    <div className="dropdown-content">
-                      <Link to="/account">Account</Link>
-                      <Link to="/orders">Orders</Link>
-                      <Link to="#" onClick={logout}>
-                        Log Out
-                      </Link>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
+          </div>
           {/* </div> */}
         </div>
       </header>

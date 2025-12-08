@@ -1,4 +1,4 @@
-import {  createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 import Layout from "@/pages/Layout";
 import ClientLayout from "./pages/client/ClientLayout";

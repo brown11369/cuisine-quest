@@ -1,10 +1,10 @@
-import "./order.css"
-import { useEffect, useState } from 'react';
+import "./order.css";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
-import { GET_ORDERS } from "../../utils/constants"
+import { GET_ORDERS } from "../../utils/constants";
 
 const Order = () => {
-  const user = useAppSelector(store => store.user.userInfo)
+  const user = useAppSelector((store) => store.user.userInfo);
   const userId = user?._id;
   const [orders, setOrders] = useState(null);
 
@@ -23,10 +23,10 @@ const Order = () => {
           setOrders(fetchData?.orderData.reverse());
         }
       } catch (err) {
-        console.error('Error fetching orders:', err);
+        console.error("Error fetching orders:", err);
       }
     })();
-  }, [userId])
+  }, [userId]);
 
   return (
     <div className="orders-container">
@@ -40,15 +40,22 @@ const Order = () => {
           {list?.items.map((item, indx) => (
             <div key={indx} className="order-item">
               <p>{item?.product?.name}</p>
-              <p> {item?.quantity} * {item?.product?.price} = {(item?.product?.price) * (item?.quantity)} ₹</p>
-              <img src={item?.product?.imageURL} alt={item?.product?.name} className="product-image" />
+              <p>
+                {" "}
+                {item?.quantity} * {item?.product?.price} ={" "}
+                {item?.product?.price * item?.quantity} ₹
+              </p>
+              <img
+                src={item?.product?.imageURL}
+                alt={item?.product?.name}
+                className="product-image"
+              />
             </div>
           ))}
         </details>
       ))}
     </div>
-
-  )
-}
+  );
+};
 
 export default Order;

@@ -3,7 +3,6 @@ export const reducer = (state, action) => {
     return { ...state, item: action.payload };
   }
 
-
   if (action.type === "REMOVE_ITEM") {
     return {
       ...state,
@@ -41,11 +40,11 @@ export const reducer = (state, action) => {
   }
 
   if (action.type === "GET_TOTAL") {
-    let { totalItem, totalAmount } = state.item.reduce(
+    const { totalItem, totalAmount } = state.item.reduce(
       (accum, curVal) => {
         // let { price, quantity } = curVal;
 
-        let updatedTotalAmount = curVal?.foodid?.price * curVal?.quantity;
+        const updatedTotalAmount = curVal?.foodid?.price * curVal?.quantity;
         accum.totalAmount += updatedTotalAmount;
 
         accum.totalItem += curVal?.quantity;
@@ -54,7 +53,7 @@ export const reducer = (state, action) => {
       {
         totalItem: 0,
         totalAmount: 0,
-      }
+      },
     );
     return { ...state, totalItem, totalAmount };
   }

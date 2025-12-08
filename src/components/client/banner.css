@@ -1,196 +1,195 @@
 .banner {
-    width: 100%;
-    height: 358px;
-    position: relative;
-    z-index: -1;
+  width: 100%;
+  height: 358px;
+  position: relative;
+  z-index: -1;
 }
 
 .slide {
-    width: 100%;
-    height: 358px;
-    position: absolute;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    animation-duration: 30s;
-    animation-delay: 2s;
-    animation-iteration-count: infinite;
+  width: 100%;
+  height: 358px;
+  position: absolute;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  animation-duration: 30s;
+  animation-delay: 2s;
+  animation-iteration-count: infinite;
 }
 
 .slide:nth-child(1) {
-    background-image: url("../media/img/rvslider1.png");
-    animation-name: slide5;
+  background-image: url("../media/img/rvslider1.png");
+  animation-name: slide5;
 }
 
 .slide:nth-child(2) {
-    background-image: url("../media/img/rvslider4.png");
-    animation-name: slide4;
+  background-image: url("../media/img/rvslider4.png");
+  animation-name: slide4;
 }
 
 .slide:nth-child(3) {
-    background-image: url("../media/img/rvslider2.png");
-    animation-name: slide3;
+  background-image: url("../media/img/rvslider2.png");
+  animation-name: slide3;
 }
 
 .slide:nth-child(4) {
-    background-image: url("../media/img/rvslider3.png");
-    animation-name: slide2;
+  background-image: url("../media/img/rvslider3.png");
+  animation-name: slide2;
 }
 
 .slide:nth-child(5) {
-    background-image: url("../media/img/rvslider1.png");
-    animation-name: slide1;
+  background-image: url("../media/img/rvslider1.png");
+  animation-name: slide1;
 }
 
 @keyframes slide1 {
-    0% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 1;
+  }
 
-    20% {
-        opacity: 0;
-    }
+  20% {
+    opacity: 0;
+  }
 
-    40% {
-        opacity: 0;
-    }
+  40% {
+    opacity: 0;
+  }
 
-    60% {
-        opacity: 0;
-    }
+  60% {
+    opacity: 0;
+  }
 
-    80% {
-        opacity: 0;
-    }
+  80% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 1;
-    }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes slide2 {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    20% {
-        opacity: 1;
-    }
+  20% {
+    opacity: 1;
+  }
 
-    40% {
-        opacity: 0;
-    }
+  40% {
+    opacity: 0;
+  }
 
-    60% {
-        opacity: 0;
-    }
+  60% {
+    opacity: 0;
+  }
 
-    80% {
-        opacity: 0;
-    }
+  80% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 0;
-    }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes slide3 {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    20% {
-        opacity: 0;
-    }
+  20% {
+    opacity: 0;
+  }
 
-    40% {
-        opacity: 1;
-    }
+  40% {
+    opacity: 1;
+  }
 
-    60% {
-        opacity: 0;
-    }
+  60% {
+    opacity: 0;
+  }
 
-    80% {
-        opacity: 0;
-    }
+  80% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 0;
-    }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes slide4 {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    20% {
-        opacity: 0;
-    }
+  20% {
+    opacity: 0;
+  }
 
-    40% {
-        opacity: 0;
-    }
+  40% {
+    opacity: 0;
+  }
 
-    60% {
-        opacity: 1;
-    }
+  60% {
+    opacity: 1;
+  }
 
-    80% {
-        opacity: 0;
-    }
+  80% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 0;
-    }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes slide5 {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    20% {
-        opacity: 0;
-    }
+  20% {
+    opacity: 0;
+  }
 
-    40% {
-        opacity: 0;
-    }
+  40% {
+    opacity: 0;
+  }
 
-    60% {
-        opacity: 0;
-    }
+  60% {
+    opacity: 0;
+  }
 
-    80% {
-        opacity: 1;
-    }
+  80% {
+    opacity: 1;
+  }
 
-    100% {
-        opacity: 0;
-    }
+  100% {
+    opacity: 0;
+  }
 }
 
 .slide_text {
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-left: 100px;
-    margin-top: 100px;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 100px;
+  margin-top: 100px;
 }
 
 .banner_title {
-    font-size: 50px;
+  font-size: 50px;
 }
 
 .banner_text {
-    color: #666;
+  color: #666;
 }
 
 .banner_text2 {
-    color: #fff;
+  color: #fff;
 }
-

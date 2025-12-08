@@ -1,47 +1,47 @@
 .user-profile {
-    display: flex;
-    align-items: center;
-    width: 80%;
-    margin: 20px auto;
-    padding: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 20px auto;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .user-profile img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin-right: 20px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 20px;
 }
 
 .user-details {
-    flex: 1;
+  flex: 1;
 }
 
 .user-details h6 {
-    margin-top: 0;
-    font-size: 1.5rem;
-    color: #333;
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
 }
 
 .user-details p {
-    margin: 5px 0;
-    color: #666;
+  margin: 5px 0;
+  color: #666;
 }
 
 .edit-btn {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
 .edit-btn:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }

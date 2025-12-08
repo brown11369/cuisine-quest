@@ -1,54 +1,54 @@
 .order-complete-container {
-    text-align: center;
-    padding: 20px;
-    /* background-color: #f9f9f9; */
-    /* border-radius: 8px; */
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
-    /* max-width: 600px; */
-    /* margin: auto; */
+  text-align: center;
+  padding: 20px;
+  /* background-color: #f9f9f9; */
+  /* border-radius: 8px; */
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+  /* max-width: 600px; */
+  /* margin: auto; */
 }
 
 .icon-msg-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  align-items: center;
 }
 
 .success-icon {
-    color: #28a745;
-    font-size: 35px;
+  color: #28a745;
+  font-size: 35px;
 }
 
 .heading {
-    color: #333;
-    font-size: 2rem;
+  color: #333;
+  font-size: 2rem;
 }
 
 .session-id {
-    color: #666;
-    font-size: 1rem;
-    margin-bottom: 20px;
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 20px;
 }
 
 .message {
-    color: #444;
-    font-size: 1rem;
-    margin-bottom: 20px;
-    line-height: 1.5;
+  color: #444;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
 }
 
 .home-button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .home-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }

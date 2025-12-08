@@ -5,12 +5,12 @@ import productSlice from "./slice/productSlice";
 import restaurantSlice from "./slice/restaurantSlice";
 
 export const store = configureStore({
-    reducer: {
-        product: productSlice,
-        user: userSlice,
-        cart: cartSlice,
-        restaurant: restaurantSlice,
-    },
+  reducer: {
+    product: productSlice,
+    user: userSlice,
+    cart: cartSlice,
+    restaurant: restaurantSlice,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

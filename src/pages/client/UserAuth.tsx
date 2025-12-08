@@ -43,7 +43,7 @@ const UserAuth = () => {
   const handleLogin = async (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     console.log("api login response data");
-    
+
     const responseData = await api.login(user);
     console.log("login response data", responseData);
     try {
