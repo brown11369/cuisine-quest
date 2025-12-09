@@ -1,15 +1,18 @@
 import "./userauth.css";
-import { useState, type ChangeEvent } from "react";
+import { useState, type FormEvent, type ChangeEvent } from "react";
 import { BiSolidHide, BiShowAlt } from "react-icons/bi";
 import { addUserInfo } from "@/redux/slice/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/redux/hooks";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { api } from "../../services/api";
+import { api } from "@/services/api";
+import { handleError } from "@/utils/handleError";
 
 const UserAuth = () => {
   const [change, setChange] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -22,56 +25,61 @@ const UserAuth = () => {
     shippingAddress: "",
     password: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const dispatch = useAppDispatch();
 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  // LOGIN input handler
   const inputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setUser({ ...user, [name]: value });
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value,
+    });
   };
 
+  // REGISTER input handler
   const regiInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    const name = event.target.name;
-    const value = event.target.value;
-    setRegisterData({ ...registerData, [name]: value });
+    setRegisterData({
+      ...registerData,
+      [event.target.name]: event.target.value,
+    });
   };
 
-  const handleLogin = async (event: ChangeEvent<HTMLInputElement>) => {
+  // LOGIN submit
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("api login response data");
 
-    const responseData = await api.login(user);
-    console.log("login response data", responseData);
     try {
+      const responseData = await api.login(user);
+
       if (responseData.status === "success") {
-        dispatch(addUserInfo(responseData?.data?.credential));
-        await localStorage.setItem("persist", JSON.stringify(true));
+        dispatch(addUserInfo(responseData.data?.credential));
+        localStorage.setItem("persist", JSON.stringify(true));
         setUser({ email: "", password: "" });
         navigate("/");
       } else {
-        toast(responseData.message);
+        toast(responseData.message || "Login failed");
       }
     } catch (error) {
-      toast("An error occurred while processing your request.");
+      handleError(error, "Failed to login. Please try again.");
     }
   };
 
-  const handleRegister = async () => {
-    const response = await api.register(registerData);
+  // REGISTER submit
+  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
     try {
+      const response = await api.register(registerData);
+
       if (response.status === "success") {
-        toast("You are registered...");
+        toast("You are registered!");
         setChange(true);
       } else {
-        // const errorData = await response.json();
-        // toast(errorData.message)
+        toast(response.message || "Registration failed");
       }
     } catch (error) {
-      toast("An error occurred while processing your request.");
+      handleError(error, "Failed to register. Please try again.");
     }
   };
 
@@ -86,6 +94,8 @@ const UserAuth = () => {
             Registration
           </button>
         </div>
+
+        {/* LOGIN FORM */}
         {change ? (
           <form onSubmit={handleLogin}>
             <input
@@ -95,7 +105,9 @@ const UserAuth = () => {
               onChange={inputHandler}
               className="login-input"
               placeholder="Enter your Email"
+              required
             />
+
             <div className="password-visible-input">
               <input
                 type={showPassword ? "text" : "password"}
@@ -104,16 +116,19 @@ const UserAuth = () => {
                 onChange={inputHandler}
                 className="login-input"
                 placeholder="Enter your Password"
+                required
               />
               <span onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? <BiSolidHide /> : <BiShowAlt />}
               </span>
             </div>
+
             <button type="submit" className="submit-btn">
               Login
             </button>
           </form>
         ) : (
+          // REGISTER FORM
           <form onSubmit={handleRegister}>
             <input
               type="text"
@@ -122,15 +137,19 @@ const UserAuth = () => {
               value={registerData.name}
               className="register-input"
               placeholder="User Name"
+              required
             />
+
             <input
-              type="text"
+              type="email"
               name="email"
               onChange={regiInputHandler}
               value={registerData.email}
               className="register-input"
               placeholder="Email"
+              required
             />
+
             <input
               type="text"
               name="contact"
@@ -138,7 +157,9 @@ const UserAuth = () => {
               value={registerData.contact}
               className="register-input"
               placeholder="Phone No."
+              required
             />
+
             <input
               type="text"
               name="shippingAddress"
@@ -146,7 +167,9 @@ const UserAuth = () => {
               value={registerData.shippingAddress}
               className="register-input"
               placeholder="Shipping Address"
+              required
             />
+
             <div className="password-visible-input">
               <input
                 type={showPassword ? "text" : "password"}
@@ -155,17 +178,20 @@ const UserAuth = () => {
                 onChange={regiInputHandler}
                 className="register-input"
                 placeholder="Enter your Password"
+                required
               />
               <span onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? <BiSolidHide /> : <BiShowAlt />}
               </span>
             </div>
+
             <button type="submit" className="submit-btn">
               Register
             </button>
           </form>
         )}
       </div>
+
       <ToastContainer />
     </section>
   );

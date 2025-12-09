@@ -7,10 +7,29 @@ import {
   MdPayments,
   MdOutlineSupportAgent,
 } from "react-icons/md";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setProducts } from "@/redux/slice/productSlice";
+import { api } from "@/services/api";
+import { useEffect } from "react";
 
 const Home = () => {
+  const dispatch = useAppDispatch();
   const products = useAppSelector((store) => store.product.products);
+
+  const fetchPublishedProducts = async () => {
+    try {
+      const response = await api.getPublishedProducts();
+      if (response.status === "success") {
+        dispatch(setProducts(response.data?.productData || []));
+      }
+    } catch (error) {
+      console.error("Error fetching published products:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPublishedProducts();
+  }, [dispatch]);
 
   return (
     <>

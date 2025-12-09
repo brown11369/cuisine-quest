@@ -1,13 +1,25 @@
+import type { ICartItem } from "@/types/cartItems";
 import { createSlice } from "@reduxjs/toolkit";
+
+interface InitialStateType {
+  items: ICartItem[];
+  totalQuantity: number;
+  totalPrice: number;
+}
+
+const initialState: InitialStateType = {
+  items: [],
+  totalQuantity: 0,
+  totalPrice: 0,
+};
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: {
-    items: [],
-    totalQuantity: 0,
-    totalPrice: 0,
-  },
+  initialState,
   reducers: {
+    fetchItems(state, action) {
+      state.items = action.payload;
+    },
     pushToCart(state, action) {
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item._id === newItem._id);
@@ -71,13 +83,14 @@ const cartSlice = createSlice({
         console.warn("Item not found with _id:", action.payload);
       }
     },
-    clearCart: (state, action) => {
+    clearCart: (state) => {
       state.items = [];
     },
   },
 });
 
 export const {
+  fetchItems,
   pushToCart,
   addItem,
   increment,

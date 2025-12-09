@@ -1,0 +1,9 @@
+echo "Running lint-staged before commit"
+npm run lint:staged
+
+echo "lint-staged finished successfully"
+
+echo "checking TypeScript types"
+tsc --noEmit
+
+echo "TypeScript type check passed"

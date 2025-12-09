@@ -175,6 +175,7 @@ class Api {
     console.log("loginData", user);
     return this.handleResponse("post", "/user/login", user);
   };
+
   register = async (user: {
     name: string;
     email: string;
@@ -185,6 +186,18 @@ class Api {
   }) => {
     console.log("registerData", user);
     return this.handleResponse("post", "/user/register", user);
+  };
+
+  getAccessToken = async (role: string = "user") => {
+    return this.handleResponse("post", `/access-token/generate/${role}`);
+  };
+
+  getPublishedProducts = async () => {
+    return this.handleResponse("get", "/product/published");
+  };
+
+  getCartProduct = async (id: string) => {
+    return this.handleResponse("get", `cart/items/${id}`);
   };
 }
 
