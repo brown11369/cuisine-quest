@@ -1,9 +1,10 @@
 import "./cart.css";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { STRIP_KEY, POST_CHECKOUT_SESSION } from "../../utils/constants";
-import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
-import { increment, decrement, removeItem } from "../../redux/slice/cartSlice";
+import { increment, decrement, removeItem } from "@/redux/slice/cartSlice";
+import { api } from "@/services/api";
+import type { ICartItem } from "@/types/cartItems";
+import type { IOrderData } from "@/types/order";
 
 const Cart = () => {
   const user = useAppSelector((store) => store.user.userInfo);
@@ -12,8 +13,6 @@ const Cart = () => {
   const totalPrice = useAppSelector((store) => store.cart.totalPrice);
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
-
-  const stripePromise = loadStripe(STRIP_KEY);
 
   if (cartItems?.length === 0) {
     return (
@@ -28,31 +27,28 @@ const Cart = () => {
     );
   }
 
-  const orderData = {
+  const orderData: IOrderData = {
     user: user._id,
     items: cartItems,
     totalItems,
     totalPrice,
   };
 
-  async function handlePayment(order) {
+  async function handlePayment(order: IOrderData) {
     setLoading(true);
     try {
-      const stripe = await stripePromise;
-      const res = await fetch(POST_CHECKOUT_SESSION, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(order),
-      });
+      const response = await api.createCheckoutSession(order);
 
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
+      if (response.status !== "success") {
+        throw new Error("Failed to create checkout session");
       }
 
-      const data = await res.json();
-      await stripe.redirectToCheckout({ sessionId: data.stripeSession.id });
+      const checkoutUrl = response.data.stripeSession.url;
+
+      if (!checkoutUrl) {
+        throw new Error("Stripe checkout URL missing");
+      }
+      window.location.href = checkoutUrl;
     } catch (err) {
       console.error("Error during checkout:", err);
     } finally {
@@ -60,27 +56,15 @@ const Cart = () => {
     }
   }
 
-  const deleteItem = async (itemID) => {
+  const deleteItem = async (cartItem: ICartItem) => {
+    const { _id } = cartItem;
     try {
-      const response = await fetch(DELETE_CART_ITEM + itemID, {
-        method: "DELETE",
-        credentials: "include",
-        headers: {
-          Authorization: `Bearer ${user?.accessToken}`,
-        },
-      });
-      if (response.ok) {
-        const responseData = await response.json();
-        if (responseData.success) {
-          console.log(responseData);
-          dispatch(removeItem(item));
-        }
-      } else {
-        const errorData = await response.json();
-        console.error(errorData.message);
+      const response = await api.removeCartItem(_id);
+      if (response.status === "success") {
+        dispatch(removeItem(cartItem));
       }
     } catch (error) {
-      console.error("An error occurred while processing your request.");
+      console.error(error);
     }
   };
 
@@ -141,7 +125,7 @@ const Cart = () => {
                     </td>
                     <td>
                       <button
-                        onClick={() => deleteItem(item?._id)}
+                        onClick={() => deleteItem(item)}
                         className="remove-btn"
                       >
                         Remove

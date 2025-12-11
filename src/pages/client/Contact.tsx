@@ -4,19 +4,19 @@ export default function Contact() {
     <>
       <form className="form">
         <h2 className="headline">CONTACT US</h2>
-        <p className="undertext" type="Name:">
+        <p className="undertext" aria-label="Name:">
           <input
             className="contact-input"
             placeholder="Write your name here.."
           />
         </p>
-        <p className="undertext" type="Email:">
+        <p className="undertext" aria-label="Email:">
           <input
             className="contact-input"
             placeholder="Let us know how to contact you back.."
           />
         </p>
-        <p className="undertext" type="Message:">
+        <p className="undertext" aria-label="Message:">
           <input
             className="contact-input"
             placeholder="What would you like to tell us.."

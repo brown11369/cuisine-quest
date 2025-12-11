@@ -28,7 +28,8 @@ const DashNav = () => {
         const errorData = await fetchResponse.json();
         toast(errorData.message);
       }
-    } catch (err) {
+    } catch (error) {
+      console.error("Logout Error:", error);
       toast("An error occurred while processing your request.");
     }
   };

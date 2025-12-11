@@ -45,8 +45,7 @@ const OrderComplete = () => {
             // toast.error(errorData.message || 'Something went wrong.');
           }
         } catch (error) {
-          console.log("An error occurred while processing your request.");
-          // toast.error('An error occurred while processing your request.');
+          console.error(error);
         }
       };
 

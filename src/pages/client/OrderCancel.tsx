@@ -33,6 +33,7 @@ const OrderCancel = () => {
             console.error(errorData.message);
           }
         } catch (error) {
+          console.error("Error:", error);
           console.error("An error occurred while processing your request.");
         }
       };

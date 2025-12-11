@@ -10,9 +10,9 @@ const Account = () => {
       <div className="user-details">
         <h6>{user.name}</h6>
         <p>Email: {user?.email}</p>
-        <p>Phone: {user?.contact}</p>
-        <p>Address: {user?.address}</p>
-        <p>Shipping Address: {user?.shippingAddress}</p>
+        {/* <p>Phone: {user?.contact}</p> */}
+        {/* <p>Address: {user?.address}</p> */}
+        {/* <p>Shipping Address: {user?.shippingAddress}</p> */}
         <button className="edit-btn">Edit Information</button>
       </div>
     </div>

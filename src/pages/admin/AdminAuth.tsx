@@ -1,5 +1,5 @@
 import "./adminauth.css";
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { BiSolidHide, BiShowAlt } from "react-icons/bi";
 import { POST_USER_LOGIN, POST_USER_REGISTER } from "../../utils/constants";
 import { addUserInfo } from "../../redux/slice/userSlice";
@@ -20,6 +20,7 @@ const AdminAuth = () => {
     description: "",
     email: "",
     contact: "",
+    shippingAddress: "",
     ownerName: "",
     address: "",
     open: "",
@@ -32,20 +33,19 @@ const AdminAuth = () => {
 
   const navigate = useNavigate();
 
-  const inputHandler = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setLoginData({ ...loginData, [name]: value });
+  const inputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setLoginData({ ...loginData, [event.target.name]: event.target.value });
   };
 
-  const regiInputHandler = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setRegisterData({ ...registerData, [name]: value });
+  const regiInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setRegisterData({
+      ...registerData,
+      [event.target.name]: event.target.value,
+    });
   };
 
-  const handleLogin = async (event) => {
-    event.preventDefault(); // Set loading message when form is submitted
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       const response = await fetch(POST_USER_LOGIN, {
         method: "POST",
@@ -67,11 +67,12 @@ const AdminAuth = () => {
         toast(errorData.message);
       }
     } catch (error) {
+      console.error("Error during login:", error);
       toast("An error occurred while processing your request.");
     }
   };
 
-  const handleRegister = async (event) => {
+  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Set loading message when form is submitted
     try {
       const response = await fetch(POST_USER_REGISTER, {
@@ -91,6 +92,7 @@ const AdminAuth = () => {
         toast(errorData.message);
       }
     } catch (error) {
+      console.error("Error during login:", error);
       toast("An error occurred while processing your request.");
     }
   };
@@ -116,6 +118,7 @@ const AdminAuth = () => {
               onChange={inputHandler}
               className="login-input"
               placeholder="Enter your Email"
+              required
             />
             <div className="password-visible-input">
               <input

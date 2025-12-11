@@ -1,23 +1,19 @@
-import { useEffect, useState } from "react";
-import { GET_ALL_RESTAURANT } from "../../utils/constants";
 import "./restaurants.css";
+import { useEffect, useState } from "react";
+import { api } from "@/services/api";
+import type { IRestaurantDetails } from "@/types/restaurant";
 
 const Restaurants = () => {
-  const [restaurants, setRestaurants] = useState([]);
+  const [restaurants, setRestaurants] = useState<IRestaurantDetails[]>([]);
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await fetch(GET_ALL_RESTAURANT);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const fetchData = await response.json();
+        const response = await api.getPublishedRestaurant();
 
-        if (fetchData.success) {
-          setRestaurants(fetchData?.restaurants);
-        } else {
-          throw new Error("Request failed with error: " + data?.error);
+        if (response.status === "success") {
+          console.log("Restaurants Data:", response.data);
+          setRestaurants(response.data.restaurants);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -27,7 +23,6 @@ const Restaurants = () => {
 
   return (
     <div className="restaurant-container">
-      {/* <h1>All Restaurants</h1> */}
       {restaurants.map((restaurant, index) => {
         return (
           <div className="card" key={index}>

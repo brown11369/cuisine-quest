@@ -1,31 +1,30 @@
 import "./order.css";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
-import { GET_ORDERS } from "../../utils/constants";
+import { api } from "@/services/api";
+import type { IShippedOrder } from "@/types/order";
 
 const Order = () => {
   const user = useAppSelector((store) => store.user.userInfo);
   const userId = user?._id;
-  const [orders, setOrders] = useState(null);
+  const [orders, setOrders] = useState<IShippedOrder[]>();
 
   useEffect(() => {
-    (async () => {
+    const fetchOrders = async () => {
       try {
-        if (userId) {
-          const response = await fetch(GET_ORDERS + userId);
+        if (!userId) return;
 
-          if (!response.ok) {
-            throw new Error(`Failed to fetch orders: ${response.status}`);
-          }
+        const response = await api.getOrders(userId);
 
-          const fetchData = await response.json();
-          // console.log(fetchData?.orderData.reverse());
-          setOrders(fetchData?.orderData.reverse());
+        if (response.status === "success") {
+          setOrders(response.data.orderData.reverse());
         }
       } catch (err) {
         console.error("Error fetching orders:", err);
       }
-    })();
+    };
+
+    fetchOrders();
   }, [userId]);
 
   return (
@@ -37,12 +36,12 @@ const Order = () => {
             <strong>{list?.totalPrice} ₹</strong>
             <p>{list?.createdAt}</p>
           </summary>
+
           {list?.items.map((item, indx) => (
             <div key={indx} className="order-item">
               <p>{item?.product?.name}</p>
               <p>
-                {" "}
-                {item?.quantity} * {item?.product?.price} ={" "}
+                {item?.quantity} × {item?.product?.price} ={" "}
                 {item?.product?.price * item?.quantity} ₹
               </p>
               <img

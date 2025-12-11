@@ -16,18 +16,17 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector((store) => store.product.products);
 
-  const fetchPublishedProducts = async () => {
-    try {
-      const response = await api.getPublishedProducts();
-      if (response.status === "success") {
-        dispatch(setProducts(response.data?.productData || []));
-      }
-    } catch (error) {
-      console.error("Error fetching published products:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchPublishedProducts = async () => {
+      try {
+        const response = await api.getPublishedProducts();
+        if (response.status === "success") {
+          dispatch(setProducts(response.data?.productData || []));
+        }
+      } catch (error) {
+        console.error("Error fetching published products:", error);
+      }
+    };
     fetchPublishedProducts();
   }, [dispatch]);
 

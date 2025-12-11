@@ -22,19 +22,19 @@ export default function Header() {
   const UserID = user?._id;
 
   // Fetch cart items
-  const fetchCartItems = async (UserID: string) => {
-    try {
-      const response = await api.getCartProduct(UserID);
-      if (response.status === "success") {
-        dispatch(fetchItems(response.data?.cartItemData || []));
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   useEffect(() => {
     if (!UserID) return;
+    const fetchCartItems = async (UserID: string) => {
+      try {
+        const response = await api.getCartProduct(UserID);
+        if (response.status === "success") {
+          dispatch(fetchItems(response.data?.cartItemData || []));
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
     fetchCartItems(UserID);
   }, [UserID, dispatch]);
 
@@ -57,7 +57,8 @@ export default function Header() {
       } else {
         toast(responseData.message);
       }
-    } catch {
+    } catch (error) {
+      console.error("Logout Error:", error);
       toast("An error occurred while processing your request.");
     }
   };

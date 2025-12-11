@@ -19,9 +19,9 @@ export const GET_ALL_PUBLISHED_product = `${URL}/product/published`;
 export const GET_ALL_RESTAURANT = `${URL}/restaurant/all`;
 
 // cart
-export const POST_ADD_ITEM = `${URL}/cart/add`;
-export const POST_UPDATE_QUANTITY = `${URL}/cart/quantity/`;
-export const GET_CART_ITEMS = `${URL}/cart/items/`;
+// export const POST_ADD_ITEM = `${URL}/cart/add`;
+// export const POST_UPDATE_QUANTITY = `${URL}/cart/quantity/`;
+// export const GET_CART_ITEMS = `${URL}/cart/items/`;
 export const DELETE_CART_ITEM = `${URL}/cart/remove/`;
 
 // checkout

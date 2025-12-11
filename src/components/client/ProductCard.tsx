@@ -1,10 +1,10 @@
 import "./productcard.css";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { POST_ADD_ITEM } from "@/utils/constants";
 import { useNavigate } from "react-router-dom";
 import { pushToCart } from "@/redux/slice/cartSlice";
 import { ToastContainer, toast } from "react-toastify";
 import type { IProduct } from "@/types/products";
+import { api } from "@/services/api";
 
 interface ProductCardProps {
   product: IProduct;
@@ -27,20 +27,11 @@ function ProductCard({ product }: ProductCardProps) {
     };
 
     try {
-      const response = await fetch(POST_ADD_ITEM, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(cartData),
-      });
+      const response = await api.addToCart(cartData);
 
-      const fetchData = await response.json();
-
-      if (response.ok && fetchData.data) {
+      if (response.status === "success") {
         const cartItemData = {
-          _id: fetchData.data._id,
+          _id: response.data._id,
           user: user._id,
           product,
           quantity: 1,
@@ -48,7 +39,7 @@ function ProductCard({ product }: ProductCardProps) {
 
         dispatch(pushToCart(cartItemData));
       } else {
-        toast(fetchData.message || "Failed to add item to cart");
+        toast(response.message || "Failed to add item to cart");
       }
     } catch (error) {
       console.error(error);
@@ -77,7 +68,6 @@ function ProductCard({ product }: ProductCardProps) {
           </button>
         </div>
       </div>
-
       <ToastContainer />
     </div>
   );

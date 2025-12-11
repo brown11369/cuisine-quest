@@ -1,16 +1,24 @@
+import type { IProduct } from "@/types/products";
+import type { IRestaurant } from "@/types/restaurant";
 import { createSlice } from "@reduxjs/toolkit";
 
+interface InitialStateType {
+  restaurantInfo: IRestaurant;
+  restaurantProducts: IProduct[];
+}
+
+const initialState: InitialStateType = {
+  restaurantInfo: {
+    _id: "",
+    name: "",
+    email: "",
+    accessToken: null,
+  },
+  restaurantProducts: [],
+};
 const restaurantSllice = createSlice({
   name: "restaurant",
-  initialState: {
-    restaurantInfo: {
-      _id: "",
-      name: "",
-      email: "",
-      accessToken: null,
-    },
-    restaurantProducts: [],
-  },
+  initialState,
   reducers: {
     addRestaurantInfo: (state, action) => {
       state.restaurantInfo = action?.payload;

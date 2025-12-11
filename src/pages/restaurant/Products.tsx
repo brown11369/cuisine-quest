@@ -1,62 +1,29 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { GET_RESTAURANT_PRODUCTS } from "../../utils/constants";
-import { addRestaurantProducts } from "../../redux/slice/restaurantSlice";
-import { useNavigate } from "react-router-dom";
+import { addRestaurantProducts } from "@/redux/slice/restaurantSlice";
+import { api } from "@/services/api";
 import { FaRegTrashAlt, FaRegEdit, FaCircle } from "react-icons/fa";
 
 export default function Products() {
-  const restaurant = useAppSelector((store) => store.restaurant.restaurantInfo);
-  const products = useAppSelector(
-    (store) => store.restaurant.restaurantProducts,
+  const { restaurantInfo, restaurantProducts } = useAppSelector(
+    (store) => store.restaurant,
   );
-  const restaurantID = restaurant?._id;
+  const restaurantID = restaurantInfo?._id;
   const dispatch = useAppDispatch();
-  const redirect = useNavigate();
-
-  console.log(products);
 
   useEffect(() => {
-    (() => {
-      fetch(GET_RESTAURANT_PRODUCTS + restaurantID)
-        .then((response) => response.json())
-        .then((fetchData) => {
-          if (fetchData.success) {
-            console.log("daya", fetchData?.productData);
-            dispatch(addRestaurantProducts(fetchData?.productData));
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    })();
-  }, []);
-
-  const handleEdit = (itemID) => {
-    redirect(`${redirectURL + itemID}`);
-  };
-
-  const deleteItem = async (itemID) => {
-    const isDelete = window.confirm("Do you really want to delete this?");
-    if (isDelete === true) {
+    const fetchRestaurantProducts = async (restaurantID: string) => {
       try {
-        const response = await fetch(`${deleteURL + itemID}`, {
-          method: "DELETE",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-            // authorization: `Bearer ${adminInfo?.accessToken}`,
-          },
-        });
-        const responseData = await response.json();
-        console.log(responseData);
-      } catch (error) {
-        console.error("Error deleting blog:", error);
+        const response = await api.getRestaurantProducts(restaurantID);
+        if (response.status === "success") {
+          dispatch(addRestaurantProducts(response?.data.productData));
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } else {
-      console.log("Delete canceled");
-    }
-  };
+    };
+    fetchRestaurantProducts(restaurantID);
+  }, [dispatch, restaurantID]);
 
   return (
     <table className="blogTable">
@@ -71,20 +38,20 @@ export default function Products() {
         </tr>
       </thead>
       <tbody>
-        {products &&
-          products?.map((product) => (
+        {restaurantProducts &&
+          restaurantProducts?.map((product) => (
             <tr>
               <td>{product?.name}</td>
               <td>{product?.price}</td>
               <td>{product?.category}</td>
               <td>{product?.keywords.join(",")}</td>
               <td>
-                <span onClick={() => deleteItem()}>
+                <span onClick={() => console.log("delete")}>
                   <FaRegTrashAlt />
                   Delete
                 </span>{" "}
                 |{" "}
-                <span onClick={() => handleEdit()}>
+                <span onClick={() => console.log("edit")}>
                   <FaRegEdit />
                   Edit
                 </span>

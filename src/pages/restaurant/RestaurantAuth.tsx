@@ -1,15 +1,13 @@
 import "./restaurantauth.css";
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { BiSolidHide, BiShowAlt } from "react-icons/bi";
-import {
-  POST_RESTAURANT_REGISTER,
-  POST_RESTAURANT_LOGIN,
-} from "../../utils/constants";
-import { addRestaurantInfo } from "../../redux/slice/restaurantSlice";
+import { addRestaurantInfo } from "@/redux/slice/restaurantSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/redux/hooks";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { api } from "@/services/api";
+import { saveStore } from "@/utils/storage";
 
 const RestaurantAuth = () => {
   const [change, setChange] = useState(true);
@@ -20,82 +18,61 @@ const RestaurantAuth = () => {
 
   const [registerData, setRegisterData] = useState({
     name: "",
-    description: "",
     email: "",
     contact: "",
-    ownerName: "",
-    address: "",
-    open: "",
-    close: "",
-    imageURL: "",
+    shippingAddress: "",
     password: "",
+    // description: "",
+    // ownerName: "",
+    // address: "",
+    // open: "",
+    // close: "",
+    // imageURL: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
-  const inputHandler = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setLoginData({ ...loginData, [name]: value });
+  const inputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setLoginData({ ...loginData, [event.target.name]: event.target.value });
   };
 
-  const regiInputHandler = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setRegisterData({ ...registerData, [name]: value });
+  const regiInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setRegisterData({
+      ...registerData,
+      [event.target.name]: event.target.value,
+    });
   };
 
-  const handleLogin = async (event) => {
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Set loading message when form is submitted
     try {
-      const response = await fetch(POST_RESTAURANT_LOGIN, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginData),
-      });
+      const response = await api.restaurantLogin(loginData);
 
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log(responseData);
-        dispatch(addRestaurantInfo(responseData?.restaurantInfo));
-        await localStorage.setItem("persist", JSON.stringify(true));
+      if (response.status === "success") {
+        dispatch(addRestaurantInfo(response?.data?.credential));
+        saveStore("persist", JSON.stringify(true));
         setLoginData({ email: "", password: "" });
         navigate("/restaurant");
-      } else {
-        const errorData = await response.json();
-        toast(errorData.message);
       }
     } catch (error) {
+      console.error("Error during login:", error);
       toast("An error occurred while processing your request.");
     }
   };
 
-  const handleRegister = async (event) => {
+  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Set loading message when form is submitted
     try {
-      const response = await fetch(POST_RESTAURANT_REGISTER, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(registerData),
-      });
+      const response = await api.restaurantRegister(registerData);
 
-      if (response.ok) {
-        const responseData = await response.json();
-        toast(responseData?.message);
+      if (response.status === "success") {
+        toast("Registration successful! Please login.");
         setChange(true);
-      } else {
-        const errorData = await response.json();
-        toast(errorData.message);
       }
     } catch (error) {
+      console.error("Error during login:", error);
       toast("An error occurred while processing your request.");
     }
   };
