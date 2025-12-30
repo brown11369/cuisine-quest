@@ -22,13 +22,14 @@ import RestaurantOrder from "@/pages/restaurant/RestaurantOrder";
 import Profile from "@/pages/restaurant/Profile";
 import OrderComplete from "./pages/client/OrderComplete";
 import OrderCancel from "./pages/client/OrderCancel";
-// import Error from '@/pages/Error';
+import Error from "@/pages/Error";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    // errorElement: <Error />,
+    errorElement: <Error message={"from global elemnet"} />,
     children: [
       {
         element: <ClientLayout />,
@@ -44,6 +45,7 @@ export const router = createBrowserRouter([
           {
             path: "shop",
             element: <Shop />,
+            errorElement: <Error message={"from shop elemnet"} />,
           },
           {
             path: "contact",
@@ -59,7 +61,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "orders",
-            element: <Order />,
+            element: (
+              <ProtectedRoutes>
+                <Order />
+              </ProtectedRoutes>
+            ),
           },
           {
             path: "orders/complete",
@@ -108,6 +114,7 @@ export const router = createBrowserRouter([
       {
         path: "admin/authentication",
         element: <AdminAuth />,
+        errorElement: <Error />,
       },
       {
         path: "admin-dashboard",

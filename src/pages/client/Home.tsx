@@ -7,53 +7,68 @@ import {
   MdPayments,
   MdOutlineSupportAgent,
 } from "react-icons/md";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setProducts } from "@/redux/slice/productSlice";
 import { api } from "@/services/api";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import type { IProduct } from "@/types/products";
+import { toast } from "react-toastify";
+
+const fetchPublishedProducts = async () => {
+  const res = await api.getPublishedProducts();
+
+  if (res.status === "error") {
+    throw new Error(res.message);
+  }
+
+  toast.success("Saved successfully!");
+  return res.data?.productData ?? [];
+};
+
+const categories = [
+  { img: "1.png", name: "Rasgulla" },
+  { img: "2.png", name: "Lassi" },
+  { img: "3.png", name: "Malai Chaap" },
+  { img: "4.png", name: "Pizza" },
+  { img: "5.png", name: "Samosa" },
+  { img: "6.png", name: "Litti Chokha" },
+];
 
 const Home = () => {
-  const dispatch = useAppDispatch();
-  const products = useAppSelector((store) => store.product.products);
-
-  useEffect(() => {
-    const fetchPublishedProducts = async () => {
-      try {
-        const response = await api.getPublishedProducts();
-        if (response.status === "success") {
-          dispatch(setProducts(response.data?.productData || []));
-        }
-      } catch (error) {
-        console.error("Error fetching published products:", error);
-      }
-    };
-    fetchPublishedProducts();
-  }, [dispatch]);
+  const {
+    data: products,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["product", "published"],
+    queryFn: fetchPublishedProducts,
+  });
 
   return (
     <>
-      {/* <!-- ------- banner section ------- --> */}
-
+      {/* ------- Banner ------- */}
       <Banner />
 
-      {/* <!-- ------- free delivery section ------- --> */}
+      {/* ------- Free delivery section ------- */}
       <div className="container">
         <div className="container-center quality">
           <div className="qua-com">
             <MdDeliveryDining className="md-icon" />
             <h3 className="heading">Free Delivery</h3>
-            <p className="quality_text">For all oders over Rs. 350</p>
+            <p className="quality_text">For all orders over Rs. 350</p>
           </div>
+
           <div className="qua-com">
             <MdAccessTimeFilled className="md-icon" />
             <h3 className="heading">30 Min delivery</h3>
             <p className="quality_text">Fast delivery</p>
           </div>
+
           <div className="qua-com">
             <MdPayments className="md-icon" />
             <h3 className="heading">Secure Payment</h3>
             <p className="quality_text">100% secure payment</p>
           </div>
+
           <div className="qua-com">
             <MdOutlineSupportAgent className="md-icon" />
             <h3 className="heading">24/7 Support</h3>
@@ -61,92 +76,68 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {/* <!-- ------- top categories section ------- --> */}
 
+      {/* ------- Top categories ------- */}
       <div className="container">
         <div className="container-center direction">
           <div className="heading">Top Categories Of The Month</div>
+
           <div className="product_container">
-            <div className="product">
-              <img className="product_img" src="./media/img/1.png" />
-              <h3 className="product_heading">Rasgulla</h3>
-            </div>
-
-            <div className="product">
-              <img className="product_img" src="./media/img/2.png" />
-              <h3 className="product_heading">Lassi</h3>
-            </div>
-
-            <div className="product">
-              <img className="product_img" src="./media/img/3.png" />
-              <h3 className="product_heading">Malai Chaap</h3>
-            </div>
-
-            <div className="product">
-              <img className="product_img" src="./media/img/4.png" />
-              <h3 className="product_heading">Pizza</h3>
-            </div>
-
-            <div className="product">
-              <img className="product_img" src="./media/img/5.png" />
-              <h3 className="product_heading">Samosa</h3>
-            </div>
-
-            <div className="product">
-              <img className="product_img" src="./media/img/6.png" />
-              <h3 className="product_heading">Litti Chokha</h3>
-            </div>
+            {categories.map((item) => (
+              <div className="product" key={item.name}>
+                <img
+                  className="product_img"
+                  src={`./media/img/${item.img}`}
+                  alt={item.name}
+                />
+                <h3 className="product_heading">{item.name}</h3>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* ------------------------food items---------------------------------- */}
-
+      {/* ------- Food items ------- */}
       <div className="container food-container">
         <div className="container-center">
-          {products?.slice(0, 8)?.map((product) => (
-            <ProductCard key={product?._id} product={product} />
-          ))}
+          {isLoading ? (
+            <p>Loading products...</p>
+          ) : (
+            isError && <p>Error loading products: {(error as Error).message}</p>
+          )}
+          {products &&
+            products
+              .slice(0, 8)
+              .map((product: IProduct) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
         </div>
       </div>
 
-      {/* <!-- ------- advertisement section ------- --> */}
-
+      {/* ------- Advertisement ------- */}
       <div className="container advertisement">
         <div className="container-center">
           <div className="advertisement-box left">
             <h2>
-              Fresh Summer With
-              <br />
-              Pineapple juice
+              Fresh Summer With <br /> Pineapple juice
             </h2>
             <span className="off">120 Rs./-</span>
             <br />
-            {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan justo sed metus egestas, ac tempus mi sodales.</p> */}
             <button className="btn ad-btn">Shop Now</button>
           </div>
+
           <div className="advertisement-box right">
             <h2>
-              Fresh Vegetable With
-              <br />
-              Healthy Body
+              Fresh Vegetable With <br /> Healthy Body
             </h2>
             <span className="off">350 Rs./-</span>
             <br />
-            {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan justo sed metus egestas, ac tempus mi sodales.</p> */}
             <button className="btn ad-btn">Shop Now</button>
           </div>
         </div>
       </div>
 
-      {/* <!-- ------- Deals Of The Day ------- --> */}
-
-      {/* <Deals /> */}
-
-      {/* <!-- ------- new section ------- --> */}
-
-      {/* <!-- ------- newsletter section ------- --> */}
-
+      {/* ------- Newsletter ------- */}
       <section className="container">
         <div className="subscribe">
           <div className="subscribe-container">
@@ -155,8 +146,9 @@ const Home = () => {
             </h1>
             <p className="subscribe-text">
               Subscribe to the Martfury mailing list to receive updates on new
-              arrivals, special offers and our promotions.
+              arrivals, special offers and promotions.
             </p>
+
             <div className="search-box">
               <input
                 className="search-input"
@@ -166,6 +158,7 @@ const Home = () => {
               <button className="btn search-btn">Search</button>
             </div>
           </div>
+
           <div className="subscribe-container">
             <img
               className="subscribe-image"

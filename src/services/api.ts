@@ -1,5 +1,4 @@
 import axios, { type AxiosInstance } from "axios";
-import { queryClient } from "./queryClient";
 import { is } from "@/utils/is";
 import { loadStore, removeStore, saveStore } from "@/utils/storage";
 import type { IOrderData } from "@/types/order";
@@ -111,30 +110,28 @@ class Api {
       };
     }
 
-    const queryKey = [url, params, method];
+    try {
+      const response = await this.instance.request({
+        method,
+        url,
+        params,
+        signal,
+      });
 
-    const response = await queryClient.fetchQuery({
-      queryKey,
-      queryFn: () =>
-        this.instance.request({
-          method,
-          url,
-          params: method === "get" ? params : undefined,
-          data: method !== "get" ? params : undefined,
-          signal,
-        }),
-    });
+      if (is.dev) console.info("API response:", response);
 
-    const status = response.status;
-    const data = response.data;
-    const message = data?.message || data?.detail || "An error occurred";
-
-    if (is.dev) console.info("API response:", response);
-
-    if (status >= 200 && status < 300) {
-      return { status: "success", data };
+      return { status: "success", data: response.data };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      return {
+        status: "error",
+        message:
+          error.response?.data?.message ||
+          error.response?.data?.detail ||
+          error.message ||
+          "An unknown error occurred",
+      };
     }
-    return { status: "error", message };
   };
 
   // -------------------------------
