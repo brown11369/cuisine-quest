@@ -1,23 +1,32 @@
-import React, { act } from "react";
+import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { createRoot } from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { type ReactElement } from "react";
 import productReducer from "@/redux/slice/productSlice";
 
-export function renderWithStore(ui: React.ReactElement) {
+export function renderWithStore(ui: ReactElement) {
   const store = configureStore({
     reducer: {
       product: productReducer,
     },
   });
 
-  const container = document.createElement("div");
-  document.body.appendChild(container);
-
-  act(() => {
-    const root = createRoot(container);
-    root.render(<Provider store={store}>{ui}</Provider>);
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
   });
 
-  return { container, store };
+  return {
+    ...render(
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>{ui}</QueryClientProvider>
+      </Provider>,
+    ),
+    store,
+    queryClient,
+  };
 }

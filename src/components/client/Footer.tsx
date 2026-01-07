@@ -1,103 +1,139 @@
-import "./footer.css";
 import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
-    <footer className="container footer">
-      <div className="container-center align-card">
-        <div className="footer-card">
-          <h5 className="footer-title">
+    <footer className="bg-gray-100 text-gray-700">
+      {/* Main Footer Content */}
+      <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Quick Links */}
+        <div>
+          <h5 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-2">
             Quick Links
-            <hr />
           </h5>
-          <ul className="quick_links">
-            <li className="quick_link">
-              <Link className="quick_tag" to="/">
+          <ul className="space-y-2">
+            <li>
+              <Link className="hover:text-green-600 transition-colors" to="/">
                 Home
               </Link>
             </li>
-            <li className="quick_link">
-              <Link className="quick_tag" to="/shop">
+            <li>
+              <Link
+                className="hover:text-green-600 transition-colors"
+                to="/shop"
+              >
                 Shop
               </Link>
             </li>
-            <li className="quick_link">
-              <Link className="quick_tag" to="/contact">
+            <li>
+              <Link
+                className="hover:text-green-600 transition-colors"
+                to="/contact"
+              >
                 Contact
               </Link>
             </li>
-            <li className="quick_link">
-              <Link className="quick_tag" to="/cart">
+            <li>
+              <Link
+                className="hover:text-green-600 transition-colors"
+                to="/cart"
+              >
                 Cart
               </Link>
             </li>
-            <li className="quick_link">
-              <Link className="quick_tag" to="/admin/authentication">
+            <li>
+              <Link
+                className="hover:text-green-600 transition-colors"
+                to="/admin/authentication"
+              >
                 Admin
               </Link>
             </li>
-            <li className="quick_link">
-              <Link className="quick_tag" to="/restaurant/authentication">
+            <li>
+              <Link
+                className="hover:text-green-600 transition-colors"
+                to="/restaurant/authentication"
+              >
                 Restaurant
               </Link>
             </li>
           </ul>
         </div>
 
-        <div className="footer-card">
-          <h5 className="footer-title">
+        {/* Contact Info */}
+        <div>
+          <h5 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-2">
             Contact Info
-            <hr />
           </h5>
-          <ul className="quick_links">
-            <li className="quick_link">
-              Shop 442 Block-F Connaught Place Delhi
-            </li>
-            <li className="quick_link">Info@brownshop.com</li>
-            <li className="quick_link">+91 9080706050</li>
+          <ul className="space-y-2">
+            <li>Shop 442 Block-F, Connaught Place, Delhi</li>
+            <li>Info@brownshop.com</li>
+            <li>+91 9080706050</li>
           </ul>
         </div>
 
-        <div className="footer-card">
-          <h5 className="footer-title">
+        {/* Recent Blogs */}
+        <div>
+          <h5 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-2">
             Recent Blogs
-            <hr />
           </h5>
-          <ul className="quick_links blogs">
-            <li className="quick_link">
-              The Future of Sustainable E-Commerce is Now
-            </li>
-            <li className="quick_link">
-              The Big Billion Days 2021 – News Updates
-            </li>
-            <li className="quick_link">
+          <ul className="list-disc list-inside space-y-1">
+            <li>The Future of Sustainable E-Commerce is Now</li>
+            <li>The Big Billion Days 2021 – News Updates</li>
+            <li>
               Sky’s the limit: For this former IAF officer, Flipkart is an
               adrenaline rush!
             </li>
-            <li className="quick_link">Enabling growth across the ecosystem</li>
+            <li>Enabling growth across the ecosystem</li>
           </ul>
         </div>
 
-        <div className="footer-card">
-          <h5 className="footer-title">
+        {/* Social & Apps */}
+        <div>
+          <h5 className="text-lg font-semibold mb-4 border-b border-gray-300 pb-2">
             Connect with Us
-            <hr />
           </h5>
-          <div className="social">
-            <img className="icon" src="./media/img/facebook.png" />
-            <img className="icon" src="./media/img/instagram.png" />
-            <img className="icon" src="./media/img/pinterest.png" />
-            <img className="icon" src="./media/img/twitter.png" />
-            <img className="icon" src="./media/img/youtube.png" />
+          <div className="flex space-x-4 mb-6">
+            <img
+              className="w-8 h-8 cursor-pointer"
+              src="./media/img/facebook.png"
+            />
+            <img
+              className="w-8 h-8 cursor-pointer"
+              src="./media/img/instagram.png"
+            />
+            <img
+              className="w-8 h-8 cursor-pointer"
+              src="./media/img/pinterest.png"
+            />
+            <img
+              className="w-8 h-8 cursor-pointer"
+              src="./media/img/twitter.png"
+            />
+            <img
+              className="w-8 h-8 cursor-pointer"
+              src="./media/img/youtube.png"
+            />
           </div>
-          <div className="app">
-            <img className="icon1" src="./media/img/play_store.png" />
-            <img className="icon1" src="./media/img/app_store.png" />
+          <div className="flex space-x-3">
+            <img
+              className="w-24 cursor-pointer"
+              src="./media/img/play_store.png"
+            />
+            <img
+              className="w-24 cursor-pointer"
+              src="./media/img/app_store.png"
+            />
           </div>
         </div>
       </div>
-      <div className="copyright">
-        &copy; Copyright 2012 | All Rights Reserved{" "}
-        <img className="pay" src="./media/img/payment.svg" />
+
+      {/* Copyright */}
+      <div className="bg-gray-200 text-gray-600 text-center py-4 border-t border-gray-300">
+        &copy; 2012 | All Rights Reserved
+        <img
+          className="inline-block ml-2 max-w-96"
+          src="./media/img/payment.svg"
+        />
       </div>
     </footer>
   );

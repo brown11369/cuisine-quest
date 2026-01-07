@@ -22,14 +22,14 @@ import RestaurantOrder from "@/pages/restaurant/RestaurantOrder";
 import Profile from "@/pages/restaurant/Profile";
 import OrderComplete from "./pages/client/OrderComplete";
 import OrderCancel from "./pages/client/OrderCancel";
-import Error from "@/pages/Error";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import RouteErrorFallback from "./components/errors/RouteErrorFallback";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: <Error message={"from global elemnet"} />,
+    errorElement: <RouteErrorFallback />,
     children: [
       {
         element: <ClientLayout />,
@@ -37,6 +37,7 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: <Home />,
+            errorElement: <RouteErrorFallback />,
           },
           {
             path: "restaurants",
@@ -45,7 +46,7 @@ export const router = createBrowserRouter([
           {
             path: "shop",
             element: <Shop />,
-            errorElement: <Error message={"from shop elemnet"} />,
+            errorElement: <RouteErrorFallback />,
           },
           {
             path: "contact",
@@ -114,7 +115,7 @@ export const router = createBrowserRouter([
       {
         path: "admin/authentication",
         element: <AdminAuth />,
-        errorElement: <Error />,
+        errorElement: <RouteErrorFallback />,
       },
       {
         path: "admin-dashboard",

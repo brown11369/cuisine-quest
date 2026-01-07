@@ -1,7 +1,12 @@
 import axios, { type AxiosInstance } from "axios";
 import { is } from "@/utils/is";
-import { loadStore, removeStore, saveStore } from "@/utils/storage";
 import type { IOrderData } from "@/types/order";
+import { removeStore, saveStore } from "@/utils/storage";
+import { store } from "@/redux/store"; // Redux store
+import {
+  setUser,
+  // removeAccessToken,
+} from "@/redux/slice/userSlice";
 
 // -------------------------------
 // Types
@@ -37,7 +42,8 @@ class Api {
     // REQUEST INTERCEPTOR
     // -------------------------------
     this.instance.interceptors.request.use(async (config) => {
-      const accessToken = loadStore("access_token");
+      const accessToken = store.getState().user.user?.accessToken;
+      console.log("Request Interceptor - Access Token:", accessToken);
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
@@ -59,19 +65,22 @@ class Api {
           originalRequest._retry = true;
 
           try {
-            const tokenResponse = await this.getAccessToken();
+            const response = await this.getAccessToken();
 
-            const newAccessToken = tokenResponse.data?.credential?.accessToken;
-
-            if (!newAccessToken) {
-              throw new Error("No access token returned from backend");
+            if (response.status !== "success") {
+              throw new Error("Failed to refresh access token");
             }
 
-            // Save new token
-            saveStore("access_token", newAccessToken);
-
-            // Update header
-            originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            if (response.data?.credential) {
+              const { accessToken: newAccessToken, ...userInfoWithoutToken } =
+                response.data.credential;
+              if (!newAccessToken) {
+                throw new Error("No access token returned from backend");
+              }
+              store.dispatch(setUser(response.data.credential));
+              saveStore("user", userInfoWithoutToken);
+              originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            }
 
             // Retry the original request
             return this.instance.request(originalRequest);
@@ -100,7 +109,7 @@ class Api {
     method: "get" | "post" | "put" | "delete" | "patch",
     url: string,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    params?: any,
+    payload?: any,
     signal?: AbortSignal,
   ): Promise<IAPIResponse> => {
     if (!baseURL) {
@@ -114,7 +123,9 @@ class Api {
       const response = await this.instance.request({
         method,
         url,
-        params,
+        ...(method === "get" || method === "delete"
+          ? { params: payload }
+          : { data: payload }),
         signal,
       });
 
@@ -151,12 +162,6 @@ class Api {
 
   login = async (user: { email: string; password: string }) => {
     const response = await this.handleResponse("post", "/user/login", user);
-
-    if (response.status === "success") {
-      const token = response?.data?.credential?.accessToken;
-      if (token) saveStore("access_token", token);
-    }
-
     return response;
   };
 

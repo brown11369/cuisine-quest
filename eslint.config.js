@@ -7,7 +7,7 @@ import { defineConfig, globalIgnores } from "eslint/config";
 // import { error } from "console";
 
 export default defineConfig([
-  globalIgnores(["dist"]),
+  globalIgnores(["dist", "node_modules", "coverage", "src/components/ui"]),
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
@@ -17,9 +17,14 @@ export default defineConfig([
       reactRefresh.configs.vite,
     ],
     rules: {
-      // "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-      // "@typescript-eslint/no-unused-vars": "off",
-      // "no-unused-vars": [error, { argsIgnorePattern: "^_" }],
+      "no-unused-vars": "off", // 🔴 disable JS rule
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+        },
+      ],
     },
     languageOptions: {
       ecmaVersion: 2020,

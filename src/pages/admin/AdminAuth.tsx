@@ -2,7 +2,7 @@ import "./adminauth.css";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { BiSolidHide, BiShowAlt } from "react-icons/bi";
 import { POST_USER_LOGIN, POST_USER_REGISTER } from "../../utils/constants";
-import { addUserInfo } from "../../redux/slice/userSlice";
+import { setUser } from "@/redux/slice/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/redux/hooks";
 import { ToastContainer, toast } from "react-toastify";
@@ -58,7 +58,7 @@ const AdminAuth = () => {
 
       if (response.ok) {
         const responseData = await response.json();
-        dispatch(addUserInfo(responseData?.userInfo));
+        dispatch(setUser(responseData?.userInfo));
         await localStorage.setItem("persist", JSON.stringify(true));
         setLoginData({ email: "", password: "" });
         navigate("/");

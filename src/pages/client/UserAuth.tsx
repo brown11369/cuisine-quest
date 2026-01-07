@@ -1,19 +1,27 @@
-import "./userauth.css";
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { BiSolidHide, BiShowAlt } from "react-icons/bi";
-import { addUserInfo } from "@/redux/slice/userSlice";
 import { useNavigate } from "react-router-dom";
+
+import { setUser } from "@/redux/slice/userSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { api } from "@/services/api";
 import { handleError } from "@/utils/handleError";
 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { saveStore } from "@/utils/storage";
+
 const UserAuth = () => {
-  const [change, setChange] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
-  const [user, setUser] = useState({
+  const [userInput, setUserInput] = useState({
     email: "",
     password: "",
   });
@@ -29,168 +37,177 @@ const UserAuth = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // LOGIN input handler
-  const inputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setUser({
-      ...user,
-      [event.target.name]: event.target.value,
-    });
+  const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  // REGISTER input handler
-  const regiInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setRegisterData({
-      ...registerData,
-      [event.target.name]: event.target.value,
-    });
+  const regiInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setRegisterData({ ...registerData, [e.target.name]: e.target.value });
   };
 
-  // LOGIN submit
-  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
-      const responseData = await api.login(user);
-
-      if (responseData.status === "success") {
-        dispatch(addUserInfo(responseData.data?.credential));
+      const res = await api.login(userInput);
+      if (res.data?.credential) {
+        const { accessToken: _, ...userInfoWithoutToken } = res.data.credential;
+        dispatch(setUser(res.data.credential));
+        saveStore("user", userInfoWithoutToken);
         localStorage.setItem("persist", JSON.stringify(true));
-        setUser({ email: "", password: "" });
         navigate("/");
       } else {
-        toast(responseData.message || "Login failed");
+        toast("Login failed: missing credential");
       }
-    } catch (error) {
-      handleError(error, "Failed to login. Please try again.");
+    } catch (err) {
+      handleError(err, "Failed to login");
     }
   };
 
-  // REGISTER submit
-  const handleRegister = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
-      const response = await api.register(registerData);
-
-      if (response.status === "success") {
-        toast("You are registered!");
-        setChange(true);
+      const res = await api.register(registerData);
+      if (res.status === "success") {
+        toast.success("You are registered!");
       } else {
-        toast(response.message || "Registration failed");
+        toast(res.message || "Registration failed");
       }
-    } catch (error) {
-      handleError(error, "Failed to register. Please try again.");
+    } catch (err) {
+      handleError(err, "Failed to register");
     }
   };
 
   return (
-    <section className="main-container">
-      <div className="auth-container">
-        <div>
-          <button className="login-btn" onClick={() => setChange(true)}>
-            Login
-          </button>
-          <button className="change-log-reg" onClick={() => setChange(false)}>
-            Registration
-          </button>
-        </div>
+    <section className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-center text-2xl">
+            Welcome to Forkly
+          </CardTitle>
+        </CardHeader>
 
-        {/* LOGIN FORM */}
-        {change ? (
-          <form onSubmit={handleLogin}>
-            <input
-              type="email"
-              name="email"
-              value={user.email}
-              onChange={inputHandler}
-              className="login-input"
-              placeholder="Enter your Email"
-              required
-            />
+        <CardContent>
+          <Tabs defaultValue="login" className="w-full">
+            <TabsList className="grid grid-cols-2 mb-4">
+              <TabsTrigger value="login">Login</TabsTrigger>
+              <TabsTrigger value="register">Register</TabsTrigger>
+            </TabsList>
 
-            <div className="password-visible-input">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={user.password}
-                onChange={inputHandler}
-                className="login-input"
-                placeholder="Enter your Password"
-                required
-              />
-              <span onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <BiSolidHide /> : <BiShowAlt />}
-              </span>
-            </div>
+            {/* LOGIN */}
+            <TabsContent value="login">
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div>
+                  <Label>Email</Label>
+                  <Input
+                    name="email"
+                    type="email"
+                    value={userInput.email}
+                    onChange={inputHandler}
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
 
-            <button type="submit" className="submit-btn">
-              Login
-            </button>
-          </form>
-        ) : (
-          // REGISTER FORM
-          <form onSubmit={handleRegister}>
-            <input
-              type="text"
-              name="name"
-              onChange={regiInputHandler}
-              value={registerData.name}
-              className="register-input"
-              placeholder="User Name"
-              required
-            />
+                <div>
+                  <Label>Password</Label>
+                  <div className="relative">
+                    <Input
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      value={userInput.password}
+                      onChange={inputHandler}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-2.5 text-muted-foreground"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <BiSolidHide /> : <BiShowAlt />}
+                    </button>
+                  </div>
+                </div>
 
-            <input
-              type="email"
-              name="email"
-              onChange={regiInputHandler}
-              value={registerData.email}
-              className="register-input"
-              placeholder="Email"
-              required
-            />
+                <Button type="submit" className="w-full">
+                  Login
+                </Button>
+              </form>
+            </TabsContent>
 
-            <input
-              type="text"
-              name="contact"
-              onChange={regiInputHandler}
-              value={registerData.contact}
-              className="register-input"
-              placeholder="Phone No."
-              required
-            />
+            {/* REGISTER */}
+            <TabsContent value="register">
+              <form onSubmit={handleRegister} className="space-y-4">
+                <div>
+                  <Label>Name</Label>
+                  <Input
+                    name="name"
+                    value={registerData.name}
+                    onChange={regiInputHandler}
+                    required
+                  />
+                </div>
 
-            <input
-              type="text"
-              name="shippingAddress"
-              onChange={regiInputHandler}
-              value={registerData.shippingAddress}
-              className="register-input"
-              placeholder="Shipping Address"
-              required
-            />
+                <div>
+                  <Label>Email</Label>
+                  <Input
+                    name="email"
+                    type="email"
+                    value={registerData.email}
+                    onChange={regiInputHandler}
+                    required
+                  />
+                </div>
 
-            <div className="password-visible-input">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={registerData.password}
-                onChange={regiInputHandler}
-                className="register-input"
-                placeholder="Enter your Password"
-                required
-              />
-              <span onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <BiSolidHide /> : <BiShowAlt />}
-              </span>
-            </div>
+                <div>
+                  <Label>Phone</Label>
+                  <Input
+                    name="contact"
+                    value={registerData.contact}
+                    onChange={regiInputHandler}
+                    required
+                  />
+                </div>
 
-            <button type="submit" className="submit-btn">
-              Register
-            </button>
-          </form>
-        )}
-      </div>
+                <div>
+                  <Label>Shipping Address</Label>
+                  <Input
+                    name="shippingAddress"
+                    value={registerData.shippingAddress}
+                    onChange={regiInputHandler}
+                    required
+                  />
+                </div>
+
+                <Separator />
+
+                <div>
+                  <Label>Password</Label>
+                  <div className="relative">
+                    <Input
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      value={registerData.password}
+                      onChange={regiInputHandler}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="absolute right-3 top-2.5 text-muted-foreground"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <BiSolidHide /> : <BiShowAlt />}
+                    </button>
+                  </div>
+                </div>
+
+                <Button type="submit" className="w-full">
+                  Register
+                </Button>
+              </form>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
 
       <ToastContainer />
     </section>

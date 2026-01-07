@@ -1,174 +1,153 @@
-import "./deals.css";
-
 const Deals = () => {
   return (
-    <section className="box">
-      <div className="container">
-        <div className="deals">
-          <div className="deals_day">
-            <div className="heading">Recipe Of The Day</div>
-            <div className="deals_box">
-              <img src="./media/img/Rabri Jalebi.png" className="deals_img" />
-              <div className="deals_text">
-                <span className="slide_price">FRUITS</span>
-                <h2 className="slide_heading">Rabri Jalebi</h2>
-                <span className="slide_price">190 Rs.</span>
-                <del>250 Rs.</del>
-                <h4 className="slide_price">Status: In Stock</h4>
-                <h6 className="slide_price">Expires in</h6>
-                <span className="time">02</span>:
-                <span className="time">09</span>:
-                <span className="time">32</span>:
-                <span className="time">02</span>
+    <section className="w-full py-6">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex justify-between gap-4">
+          {/* Recipe of the Day */}
+          <div className="w-[72%] h-[500px] border-2 border-green-600 font-sans">
+            <h2 className="text-xl font-bold p-4 border-b">
+              Recipe Of The Day
+            </h2>
+
+            <div className="flex">
+              <img
+                src="/media/img/Rabri Jalebi.png"
+                alt="Rabri Jalebi"
+                className="w-1/2 object-cover"
+              />
+
+              <div className="p-6 space-y-2">
+                <span className="text-sm text-gray-500">FRUITS</span>
+                <h2 className="text-2xl font-bold">Rabri Jalebi</h2>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-lg font-semibold text-green-600">
+                    190 Rs.
+                  </span>
+                  <del className="text-gray-400">250 Rs.</del>
+                </div>
+
+                <p className="font-semibold">Status: In Stock</p>
+
+                <p className="mt-4 font-semibold">Expires in</p>
+
+                <div className="flex gap-2 mt-2">
+                  {["02", "09", "32", "02"].map((t, i) => (
+                    <span
+                      key={i}
+                      className="text-2xl font-bold text-red-600 border px-4 py-2"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-          <div className="seller">
-            <div className="slide_day">
-              <div className="seller_slide">
-                <div className="heading">
-                  Top 20 Best Seller
-                  <hr />
-                </div>
 
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/6.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading">Homesoy Milk</h3>
-                      <span className="slide_price">390 Rs.</span>
+          {/* Seller Section */}
+          <div className="w-[27%] h-[500px] border overflow-hidden text-center font-sans">
+            <div className="flex w-[300%] animate-[slide_30s_infinite]">
+              {/* Slide */}
+              {[
+                {
+                  title: "Top 20 Best Seller",
+                  items: [
+                    {
+                      img: "/media/img/6.png",
+                      name: "Homesoy Milk",
+                      price: "390 Rs.",
+                    },
+                    {
+                      img: "/media/img/4.png",
+                      name: "MariGold",
+                      price: "240 Rs.",
+                    },
+                    {
+                      img: "/media/img/2.png",
+                      name: "Pineapple",
+                      price: "130 Rs.",
+                    },
+                    {
+                      img: "/media/img/1.png",
+                      name: "Organic Oranges",
+                      price: "420 Rs.",
+                    },
+                  ],
+                },
+                {
+                  title: "Buy 1 Get 1 Free",
+                  items: [
+                    {
+                      img: "/media/img/3.png",
+                      name: "Strawberries",
+                      price: "390 Rs.",
+                    },
+                    {
+                      img: "/media/img/5.png",
+                      name: "Avocadoes",
+                      price: "390 Rs.",
+                    },
+                    {
+                      img: "/media/img/6.png",
+                      name: "Australia Banana",
+                      price: "390 Rs.",
+                    },
+                    {
+                      img: "/media/img/7.png",
+                      name: "Vita Coco",
+                      price: "390 Rs.",
+                    },
+                  ],
+                },
+                {
+                  title: "Top 20 Best Seller",
+                  items: [
+                    {
+                      img: "/media/img/8.png",
+                      name: "Homesoy Milk",
+                      price: "390 Rs.",
+                    },
+                    {
+                      img: "/media/img/9.png",
+                      name: "MariGold",
+                      price: "240 Rs.",
+                    },
+                    {
+                      img: "/media/img/10.png",
+                      name: "Pineapple",
+                      price: "130 Rs.",
+                    },
+                    {
+                      img: "/media/img/11.png",
+                      name: "Organic Oranges",
+                      price: "420 Rs.",
+                    },
+                  ],
+                },
+              ].map((slide, idx) => (
+                <div key={idx} className="w-1/3 h-[500px] px-4">
+                  <h3 className="font-bold text-lg my-4">
+                    {slide.title}
+                    <hr className="mt-2" />
+                  </h3>
+
+                  {slide.items.map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-4 border-b py-3"
+                    >
+                      <img src={item.img} className="w-2/5" />
+                      <div className="text-left">
+                        <h4 className="font-semibold">{item.name}</h4>
+                        <span className="text-sm text-gray-600">
+                          {item.price}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/4.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading">MariGold</h3>
-                      <span className="slide_price">240 Rs.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/2.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading">Pineapple</h3>
-                      <span className="slide_price">130 Rs.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/1.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading">Organic Oranges</h3>
-                      <span className="slide_price">420 Rs.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* <!--  --> */}
-
-              <div className="seller_slide">
-                <div className="heading">
-                  Buy 1 Get 1 Free
-                  <hr />
-                </div>
-
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/3.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading"> Strawberries</h3>
-                      <span className="slide_price">390 Rs.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/5.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading">Avocadoes</h3>
-                      <span className="slide_price">390 Rs.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/6.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading">Australia Banana</h3>
-                      <span className="slide_price">390 Rs.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/7.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading">Vita Coco</h3>
-                      <span className="slide_price">390 Rs.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* <!--  --> */}
-
-              <div className="seller_slide">
-                <div className="heading">
-                  Top 20 Best Seller
-                  <hr />
-                </div>
-
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/8.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading">Homesoy Milk</h3>
-                      <span className="slide_price">390 Rs.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/9.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading">MariGold</h3>
-                      <span className="slide_price">240 Rs.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/10.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading">Pineapple</h3>
-                      <span className="slide_price">130 Rs.</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="box1">
-                  <div className="box2">
-                    <img src="./media/img/11.png" className="slide_img" />
-                    <div className="text">
-                      <h3 className="slide_heading">Organic Oranges</h3>
-                      <span className="slide_price">420 Rs.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

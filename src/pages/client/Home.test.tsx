@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
 import Home from "./Home";
 import { api } from "@/services/api";
 import { renderWithStore } from "@/test/renderWithStore";
@@ -9,18 +10,37 @@ vi.mock("@/components/client/Banner", () => ({
   default: () => <div>Banner</div>,
 }));
 
+// ✅ REQUIRED: mock toast side effects
+vi.mock("react-toastify", async () => {
+  const actual =
+    await vi.importActual<typeof import("react-toastify")>("react-toastify");
+
+  return {
+    ...actual,
+    toast: {
+      success: vi.fn(),
+      error: vi.fn(),
+    },
+  };
+});
+
 describe("Home page", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
+  const home = render(<Home />);
 
   it("renders banner", async () => {
-    const { container } = renderWithStore(<Home />);
+    console.log("====>", home);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (api.getPublishedProducts as any).mockResolvedValue({
+      status: "success",
+      data: { productData: [] },
+    });
 
-    // wait for React effects
-    await Promise.resolve();
+    renderWithStore(<Home />);
 
-    expect(container.innerHTML).toContain("Banner");
+    expect(await screen.findByText("Banner")).toBeInTheDocument();
   });
 
   it("calls getPublishedProducts on mount", async () => {
@@ -32,9 +52,8 @@ describe("Home page", () => {
 
     renderWithStore(<Home />);
 
-    // allow useEffect to run
-    await Promise.resolve();
-
-    expect(api.getPublishedProducts).toHaveBeenCalledOnce();
+    await waitFor(() => {
+      expect(api.getPublishedProducts).toHaveBeenCalledTimes(1);
+    });
   });
 });

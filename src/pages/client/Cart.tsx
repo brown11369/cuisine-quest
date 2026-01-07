@@ -1,6 +1,5 @@
-import "./cart.css";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { increment, decrement, removeItem } from "@/redux/slice/cartSlice";
 import { api } from "@/services/api";
 import type { ICartItem } from "@/types/cartItems";
@@ -14,15 +13,15 @@ const Cart = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
 
-  if (cartItems?.length === 0) {
+  if (!cartItems?.length) {
     return (
-      <div className="empty-cart-container">
+      <div className="flex flex-col items-center justify-center py-20">
         <img
           src="https://aleointernational.com/img/empty-cart-yellow.png"
           alt="empty cart"
-          className="empty-cart-image"
+          className="w-40 mb-6"
         />
-        <p className="empty-cart-text">Your cart is empty!</p>
+        <p className="text-lg font-medium text-gray-500">Your cart is empty!</p>
       </div>
     );
   }
@@ -34,112 +33,97 @@ const Cart = () => {
     totalPrice,
   };
 
-  async function handlePayment(order: IOrderData) {
+  const handlePayment = async (order: IOrderData) => {
     setLoading(true);
     try {
       const response = await api.createCheckoutSession(order);
 
-      if (response.status !== "success") {
-        throw new Error("Failed to create checkout session");
-      }
+      if (response.status !== "success") throw new Error("Failed checkout");
 
       const checkoutUrl = response.data.stripeSession.url;
+      if (!checkoutUrl) throw new Error("Stripe URL missing");
 
-      if (!checkoutUrl) {
-        throw new Error("Stripe checkout URL missing");
-      }
       window.location.href = checkoutUrl;
     } catch (err) {
-      console.error("Error during checkout:", err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const deleteItem = async (cartItem: ICartItem) => {
-    const { _id } = cartItem;
     try {
-      const response = await api.removeCartItem(_id);
-      if (response.status === "success") {
-        dispatch(removeItem(cartItem));
-      }
-    } catch (error) {
-      console.error(error);
+      const response = await api.removeCartItem(cartItem._id);
+      if (response.status === "success") dispatch(removeItem(cartItem));
+    } catch (err) {
+      console.error(err);
     }
   };
 
   return (
-    <div className="container">
-      <div className="container-center cart-flow">
-        <div className="cart-header">
-          <span className="total-price">Total: {totalPrice} ₹</span>
-          <button
-            className="checkout-button"
-            onClick={() => handlePayment(orderData)}
-            disabled={loading}
-          >
-            {loading ? "Processing..." : "Checkout"}
-          </button>
-        </div>
-        <table>
-          {/* <thead>
-                <tr className="food-item">
-                    <th>image</th>
-                    <th>name</th>
-                    <th>price</th>
-                    <th>quantity</th>
-                    <th>action</th>
-                </tr>
-            </thead> */}
-          <tbody>
-            {cartItems &&
-              cartItems.map((item) => {
-                return (
-                  <tr key={item?._id} className="food-item">
-                    <td>
-                      <img
-                        src={item?.product?.imageURL}
-                        alt=""
-                        className="food-image"
-                      />
-                    </td>
-                    <td className="food-name">{item?.product?.name}</td>
-                    <td className="quantity-container">
-                      <button
-                        onClick={() => dispatch(decrement(item))}
-                        className="quantity-btn"
-                      >
-                        -
-                      </button>
-                      {item?.quantity}
-                      <button
-                        onClick={() => dispatch(increment(item))}
-                        className="quantity-btn"
-                      >
-                        +
-                      </button>
-                    </td>
-                    <td className="food-price">
-                      {item?.product?.price} * {item?.quantity}=
-                      {item?.product?.price * item?.quantity}
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => deleteItem(item)}
-                        className="remove-btn"
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+    <div className="max-w-5xl mx-auto p-4 sm:p-6">
+      {/* Cart Header */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+        <span className="text-2xl font-bold text-gray-800">
+          Total: ₹{totalPrice}
+        </span>
+        <button
+          onClick={() => handlePayment(orderData)}
+          disabled={loading}
+          className={`px-6 py-2 rounded-md text-white font-semibold transition-colors
+            ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-500 hover:bg-green-600"}`}
+        >
+          {loading ? "Processing..." : "Checkout"}
+        </button>
+      </div>
+
+      {/* Cart Table */}
+      <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+        <table className="min-w-full divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-gray-100">
+            {cartItems.map((item) => (
+              <tr key={item._id}>
+                <td className="px-4 py-3">
+                  <img
+                    src={item.product.imageURL}
+                    alt={item.product.name}
+                    className="w-16 h-16 object-cover rounded-md"
+                  />
+                </td>
+                <td className="px-4 py-3 font-medium text-gray-700">
+                  {item.product.name}
+                </td>
+                <td className="px-4 py-3">
+                  <div className="flex items-center justify-center space-x-2">
+                    <button
+                      onClick={() => dispatch(decrement(item))}
+                      className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                    >
+                      -
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      onClick={() => dispatch(increment(item))}
+                      className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+                    >
+                      +
+                    </button>
+                  </div>
+                </td>
+                <td className="px-4 py-3 text-right text-gray-700">
+                  ₹{item.product.price * item.quantity}
+                </td>
+                <td className="px-4 py-3 text-center">
+                  <button
+                    onClick={() => deleteItem(item)}
+                    className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                  >
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
-          {/* <tfoot>
-                <tr>
-                    <td colSpan="5">All Cart Product</td>
-                </tr>
-            </tfoot> */}
         </table>
       </div>
     </div>

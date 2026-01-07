@@ -4,5 +4,10 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "compilerOptions": {}
+  "compilerOptions": {
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
 }

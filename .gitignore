@@ -14,8 +14,6 @@ dist-ssr
 
 .env
 
-node_file_test
-
 coverage
 
 # Editor directories and files

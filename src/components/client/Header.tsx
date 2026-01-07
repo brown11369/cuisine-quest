@@ -1,33 +1,43 @@
-import "./header.css";
 import { Link, useNavigate } from "react-router-dom";
-import { FaUserCircle, FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import { useEffect } from "react";
-import { POST_USER_LOGOUT } from "@/utils/constants";
 
+import { POST_USER_LOGOUT } from "@/utils/constants";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { fetchItems } from "@/redux/slice/cartSlice";
 import { removeAccessToken } from "@/redux/slice/userSlice";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { api } from "@/services/api";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+
+import { ThemeToggle } from "../theme-toggle";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Header() {
   const dispatch = useAppDispatch();
-  const redirect = useNavigate();
+  const navigate = useNavigate();
 
   const user = useAppSelector((state) => state.user.userInfo);
   const cartTotalItems = useAppSelector((state) => state.cart.totalQuantity);
-
-  const UserID = user?._id;
-
-  // Fetch cart items
+  const userId = user?._id;
 
   useEffect(() => {
-    if (!UserID) return;
-    const fetchCartItems = async (UserID: string) => {
+    if (!userId) return;
+
+    const fetchCartItems = async () => {
       try {
-        const response = await api.getCartProduct(UserID);
+        const response = await api.getCartProduct(userId);
         if (response.status === "success") {
           dispatch(fetchItems(response.data?.cartItemData || []));
         }
@@ -35,10 +45,10 @@ export default function Header() {
         console.error(err);
       }
     };
-    fetchCartItems(UserID);
-  }, [UserID, dispatch]);
 
-  // Logout
+    fetchCartItems();
+  }, [userId, dispatch]);
+
   const logout = async () => {
     try {
       const response = await fetch(POST_USER_LOGOUT, {
@@ -47,99 +57,110 @@ export default function Header() {
         headers: { "Content-Type": "application/json" },
       });
 
-      const responseData = await response.json();
+      const data = await response.json();
 
       if (response.ok) {
         localStorage.removeItem("persist");
-        toast(responseData?.message);
         dispatch(removeAccessToken());
-        redirect("/");
+        toast.success(data.message);
+        navigate("/");
       } else {
-        toast(responseData.message);
+        toast.error(data.message);
       }
-    } catch (error) {
-      console.error("Logout Error:", error);
-      toast("An error occurred while processing your request.");
+    } catch (err) {
+      console.error(err);
+      toast.error("Logout failed");
     }
   };
 
   return (
     <>
-      <header className="container header">
-        <div className="container-center border-line mobile-header">
-          <div
-            className={`logo-container ${user?.accessToken ? "with-search" : ""}`}
-          >
-            <Link to="/">
-              <h1 className="logo">
-                Fork<span>ly</span>
-              </h1>
-            </Link>
-          </div>
-          {/* <div className="accessible-section"> */}
+      {/* Header */}
+      <header className="border-b">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+          {/* Logo */}
+          <Link to="/" className="text-2xl font-bold">
+            Fork<span className="text-primary">ly</span>
+          </Link>
+
+          {/* Search */}
           {user?.accessToken && (
-            <input
-              className="search-input"
-              type="text"
-              placeholder="Search for Pizza..."
+            <Input
+              className="hidden md:block max-w-sm"
+              placeholder="Search for pizza..."
             />
           )}
 
-          <div className="user-account">
+          {/* Right Section */}
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+
             {!user?.accessToken ? (
-              <Link to="/authentication" className="bold-link">
-                Login / Register
-              </Link>
+              <Button asChild variant="default">
+                <Link to="/authentication">Login / Register</Link>
+              </Button>
             ) : (
               <>
-                <div className="cart-container">
-                  <div className="cart">
-                    <Link to="/cart">
-                      <FaShoppingCart className="cart-icon" />
-                      <span className="item-count">{cartTotalItems}</span>
-                    </Link>
-                  </div>
-                </div>
+                {/* Cart */}
+                <Link to="/cart" className="relative">
+                  <FaShoppingCart className="text-xl" />
+                  {cartTotalItems > 0 && (
+                    <Badge className="absolute -top-2 -right-2 px-1 text-xs">
+                      {cartTotalItems}
+                    </Badge>
+                  )}
+                </Link>
 
-                <div className="dropdown">
-                  <div className="user">
-                    <FaUserCircle className="user-icon" />
-                    <span className="user-name">{user?.name}</span>
-                  </div>
-                  <div className="dropdown-content">
-                    <Link to="/account">Account</Link>
-                    <Link to="/orders">Orders</Link>
-                    <Link to="#" onClick={logout}>
-                      Log Out
-                    </Link>
-                  </div>
-                </div>
+                {/* User Menu */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="flex items-center gap-2">
+                      <Avatar className="h-8 w-8">
+                        <AvatarFallback>
+                          {user?.name?.charAt(0).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="hidden md:block">{user?.name}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent align="end" className="w-40">
+                    <DropdownMenuItem asChild>
+                      <Link to="/account">Account</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/orders">Orders</Link>
+                    </DropdownMenuItem>
+                    <Separator />
+                    <DropdownMenuItem
+                      className="text-red-500 cursor-pointer"
+                      onClick={logout}
+                    >
+                      Log out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </>
             )}
           </div>
-          {/* </div> */}
         </div>
       </header>
 
-      <nav className="container">
-        <div className="container-center">
-          <Link className="bold-link" to="/restaurants">
+      {/* Navigation */}
+      <nav className="border-b">
+        <div className="container mx-auto flex h-12 items-center justify-between px-4 text-sm">
+          <Link to="/restaurants" className="font-semibold">
             Restaurants
           </Link>
-          <div>
-            <Link className="prime-link" to="/">
-              Home
-            </Link>
-            <Link className="prime-link" to="/shop">
-              Shop
-            </Link>
-            <Link className="prime-link" to="/contact">
-              Contact
-            </Link>
+
+          <div className="flex gap-4">
+            <Link to="/">Home</Link>
+            <Link to="/shop">Shop</Link>
           </div>
-          <Link className="bold-link" to="tel:9870895374">
+
+          <a href="tel:9870895374" className="font-semibold">
             Hotline: +91-9870895374
-          </Link>
+          </a>
         </div>
       </nav>
 
